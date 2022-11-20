@@ -1,6 +1,7 @@
-import { MouseEvent } from 'react';
+import { memo, useEffect, MouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useGetLayout } from 'hooks/widget';
 
 // import { useRecoilState } from 'recoil';
 // import { tabListState, tabType, widgetType } from '../../../../recoil/atoms/projectList';
@@ -8,8 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import NavProject from 'components/molecules/NavProject';
 import NavWidget from 'components/molecules/NavWidget';
 import Tab from 'components/atoms/Tab';
-import { useGetProject, useGetTeamForProject } from 'hooks/project';
-import { useGetUserInfoHandler } from 'hooks/user';
+import { useGetProject } from 'hooks/project';
 
 interface widgetType {
   dashboard: boolean;
@@ -34,9 +34,9 @@ interface tabType {
  *
  * @author bell
  */
-const index = () => {
+const index = memo(() => {
   // portal 용 태그
-  const el = document.getElementById('nav-service-root');
+  const el = document.getElementById('nav-root');
 
   // React-router
   const navigate = useNavigate();
@@ -47,20 +47,6 @@ const index = () => {
 
   // 쿼리 데이터
   const getProject = useGetProject(+currProjectId);
-  const getUserInfo = useGetUserInfoHandler();
-  const getTeamForProject = useGetTeamForProject(+currProjectId);
-
-  // 디벨로퍼인지 아닌지 확인하는 함수
-  const isDeveloperHandler = () => {
-    const users = getTeamForProject.data;
-    if (users) {
-      for (const user of users) {
-        if (user.userId === getUserInfo.data?.id) {
-          return user.role.id === 'DEVELOPER';
-        }
-      }
-    }
-  };
 
   const GETTABPROJECT = localStorage.getItem('project-tab-list');
 
@@ -213,7 +199,6 @@ const index = () => {
       item.isActivated = false;
     });
     newProjectTabList[idx].isActivated = true;
-
     localStorage.setItem('project-tab-list', JSON.stringify(newProjectTabList));
   }
   projectTabList = JSON.parse(localStorage.getItem('project-tab-list') as string);
@@ -275,15 +260,13 @@ const index = () => {
                   type="widget"
                   toggleHandler={() => activatedToggleWidgetHandler(id, '캘린더')}
                 ></Tab>
-                {!isDeveloperHandler() && (
-                  <Tab
-                    title={'설정'}
-                    isActivated={widgetList.setting}
-                    xBtn={false}
-                    type="widget"
-                    toggleHandler={() => activatedToggleWidgetHandler(id, '설정')}
-                  ></Tab>
-                )}
+                <Tab
+                  title={'설정'}
+                  isActivated={widgetList.setting}
+                  xBtn={false}
+                  type="widget"
+                  toggleHandler={() => activatedToggleWidgetHandler(id, '설정')}
+                ></Tab>
               </>
             ),
         )}
@@ -291,5 +274,6 @@ const index = () => {
     </>,
     el as HTMLElement,
   );
-};
+});
+
 export default index;

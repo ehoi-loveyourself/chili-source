@@ -1,13 +1,4 @@
-import {
-  ReactNode,
-  forwardRef,
-  ForwardedRef,
-  useRef,
-  useEffect,
-  useState,
-  SetStateAction,
-  Dispatch,
-} from 'react';
+import { ReactNode, forwardRef, ForwardedRef, useRef, useEffect, useState } from 'react';
 
 import { StyledLabel, StyledContainer, styledLabelType, styledContainerType } from './style';
 
@@ -18,7 +9,6 @@ interface propsType extends styledLabelType, styledContainerType {
   selectWidth?: string;
   selectSize?: string;
   children?: ReactNode;
-  setState?: Dispatch<SetStateAction<string>>;
 }
 
 /**
@@ -53,7 +43,6 @@ const index = forwardRef<HTMLSelectElement, propsType>(
       selectSize,
       containerPadding,
       children,
-      setState,
     },
     ref,
   ) => {
@@ -90,7 +79,6 @@ const index = forwardRef<HTMLSelectElement, propsType>(
           ref={inputRef}
           text={text}
           setText={setText}
-          setState={setState}
         ></Select>
       </StyledContainer>
     );

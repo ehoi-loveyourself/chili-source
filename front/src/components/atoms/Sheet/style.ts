@@ -13,9 +13,6 @@ export interface styledType {
   minHeight?: string;
   isOverflowXScroll?: boolean;
   isOverflowYScroll?: boolean;
-  isHover?: boolean;
-  minWidth?: string;
-  maxHeight?: string;
 }
 
 export const StyledSheet = styled.div<styledType>`
@@ -31,8 +28,6 @@ export const StyledSheet = styled.div<styledType>`
   background-color: ${({ backgroundColor }) => backgroundColor};
   max-width: ${({ maxWidth }) => maxWidth};
   min-height: ${({ minHeight }) => minHeight};
-  min-width: ${({ minWidth }) => minWidth};
-  max-height: ${({ maxHeight }) => maxHeight};
   ${({ isOverflowXScroll }) =>
     isOverflowXScroll
       ? css`
@@ -54,21 +49,6 @@ export const StyledSheet = styled.div<styledType>`
           }
         `
       : ''};
-  ${({ isHover, theme }) =>
-    isHover &&
-    css`
-      &:hover {
-        cursor: pointer;
-        background-color: ${theme.color.primary};
-        transition: all 0.2s linear;
-        .hover-bg {
-          background-color: ${theme.button.white};
-        }
-        .hover-text {
-          color: ${theme.button.white};
-        }
-      }
-    `}
 `;
 StyledSheet.defaultProps = {
   backgroundColor: 'white',

@@ -1,6 +1,5 @@
 interface propsType {
   messages: string[];
-  keys?: string[];
   selected?: string;
 }
 
@@ -14,11 +13,11 @@ interface propsType {
  * @param {string[]} messages   - option의 값이 되는 string 배열
  * @author bell
  */
-const index = ({ messages, keys, selected }: propsType) => {
+const index = ({ messages, selected }: propsType) => {
   return (
     <>
       {messages.map((message, idx) => (
-        <option key={idx} value={keys ? keys[idx] : message} selected={selected === message}>
+        <option key={idx} value={message} selected={selected === message}>
           {message}
         </option>
       ))}

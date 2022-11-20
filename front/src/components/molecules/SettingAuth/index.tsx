@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyledMarginY, StyledFlexRowItemsCenter, StyledMarginL, StyledUserName } from './style';
 
 import Circle from 'components/atoms/Circle';
-import FillButton from 'components/atoms/FillButton';
+import Button from 'components/atoms/Button';
 import Select from 'components/atoms/Select';
 import Option from 'components/atoms/Option';
 
@@ -60,11 +60,11 @@ const index = ({
           ></Option>
         </Select>
         <StyledMarginL />
-        <FillButton
+        <Button
           width="70px"
+          borderColor={theme.button.gray}
           backgroundColor={theme.button.green}
           isHover={true}
-          hoverColor={theme.button.darkgreen}
           clickHandler={() => {
             updateTeamRole({
               projectId: projectId,
@@ -74,13 +74,13 @@ const index = ({
           }}
         >
           변경
-        </FillButton>
+        </Button>
         <StyledMarginL />
-        <FillButton
+        <Button
           width="70px"
+          borderColor={theme.button.gray}
           backgroundColor={theme.color.bug}
           isHover={true}
-          hoverColor={theme.button.darkred}
           clickHandler={() => {
             deleteFireTeam({
               projectId: projectId,
@@ -89,7 +89,7 @@ const index = ({
           }}
         >
           강퇴
-        </FillButton>
+        </Button>
       </StyledFlexRowItemsCenter>
     </StyledMarginY>
   );

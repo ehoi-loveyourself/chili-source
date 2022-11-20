@@ -2,25 +2,17 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const StyledPage = styled.div`
-  ${tw`w-full flex flex-col overflow-y-scroll`}
+  ${tw`h-screen w-full flex flex-col`}
+`;
+StyledPage.defaultProps = {};
 
-  &::-webkit-scrollbar {
-    width: 10px; /*스크롤바의 너비*/
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: lightgray;
-    background-clip: padding-box;
-    border-radius: 100px;
-
-    border: 2px solid transparent;
-  }
+export const StyledHeader = styled.div`
+  height: 1rem;
+  min-height: 1rem;
 `;
 
-export const StyledHeader = styled.div``;
-
 export const StyledBody = styled.div`
-  ${tw`flex flex-col items-center flex-1 pt-6`}
+  ${tw`flex flex-col items-center flex-1`}
 `;
 
 export const StyledSection = styled.div`

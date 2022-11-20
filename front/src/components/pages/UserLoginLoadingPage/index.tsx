@@ -5,19 +5,19 @@ import { auth } from 'api/rest';
 
 const UserLoginLoadingPage = () => {
   // Init
-  const locate = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const clickHandler = async () => {
     // IFFE
     await (async () => {
-      const params = new URLSearchParams(locate.search.substring(1));
+      const params = new URLSearchParams(location.search.substring(1));
       console.log('[code]:', params.get('code'));
       console.log('[엑세드 토큰 발급 시도]');
       try {
         await auth.loginCallback('google', params.get('code') || '');
       } finally {
-        location.href = localStorage.getItem('URL') || '/';
+        navigate(localStorage.getItem('URL') || '/');
       }
     })();
   };

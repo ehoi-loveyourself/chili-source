@@ -8,8 +8,8 @@ import { ProjectInfo, WidgetList } from 'components/organisms/project/dashboard'
 const GanttChartPage = () => {
   return (
     <>
-      <StyledPage className="page">
-        <StyledHeader className="header">
+      <StyledPage>
+        <StyledHeader>
           <HeaderNav />
         </StyledHeader>
         <StyledBody className="body">
