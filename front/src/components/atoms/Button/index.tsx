@@ -35,7 +35,6 @@ const index = ({
   width,
   height,
   fontSize,
-  margin,
   backgroundColor,
   borderColor,
   isHover,
@@ -47,7 +46,6 @@ const index = ({
       width={width}
       height={height}
       fontSize={fontSize}
-      margin={margin}
       backgroundColor={backgroundColor}
       borderColor={borderColor}
       isHover={isHover}

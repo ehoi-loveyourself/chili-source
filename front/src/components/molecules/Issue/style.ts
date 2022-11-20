@@ -7,7 +7,7 @@ export interface styledType extends styledIssueType {
 }
 
 export interface styledIssueType {
-  issueType: string;
+  type: string;
 }
 
 export const StyledIssue = styled.div<styledType>`
@@ -19,7 +19,7 @@ export const StyledIssue = styled.div<styledType>`
 
 export const StyledIssueTop = styled.div<styledIssueType>`
   ${tw`flex justify-between items-center text-white px-4 py-2 rounded-t-2xl`};
-  ${({ issueType }) => `background-color: ${theme.issue[issueType.toLowerCase()]}`};
+  ${({ type }) => `background-color: ${theme.issue[type]}`};
   height: 50%};
 `;
 export const StyledIssueBottom = styled.div`

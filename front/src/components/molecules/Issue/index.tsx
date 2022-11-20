@@ -1,3 +1,4 @@
+import { MouseEventHandler, useState } from 'react';
 import {
   StyledIssue,
   StyledIssueTop,
@@ -8,28 +9,20 @@ import {
 } from './style';
 import Text from '../../atoms/Text';
 import Circle from '../../atoms/Circle';
-
+import Button from '../../atoms/Button';
 import { ImBin } from 'react-icons/im';
 import { HiPencil } from 'react-icons/hi';
 
-import { FaAngleDoubleUp } from 'react-icons/fa';
-import { FaAngleUp } from 'react-icons/fa';
-import { FaMinus } from 'react-icons/fa';
-import { FaAngleDown } from 'react-icons/fa';
-import { FaAngleDoubleDown } from 'react-icons/fa';
-import { ImCross } from 'react-icons/im';
-import { IconType } from 'react-icons';
-
 interface propsType extends styledType {
-  issueTemplateId: number;
-  projectId?: number;
-  userImage?: string;
+  templateId: number;
+  project?: string;
   summary?: string;
   description?: string;
   reporter?: string;
   assignee?: string;
-  priority?: string;
+  rank?: string;
   epicLink?: string;
+  sprint?: string;
   storyPoints?: number;
   clickHandler?: any;
   deleteHandler?: any;
@@ -48,15 +41,16 @@ interface propsType extends styledType {
  *
  * @param {string?} width                                       - 이슈 템플릿 넓이 [default: 400px]
  * @param {string?} height                                      - 이슈 템플릿 높이 [default: 90px]
- * @param {number} issueTemplateId                              - 이슈 템플릿 ID
- * @param {string?} projectId                                   - 프로젝트 ID
- * @param {string} issueType                                    - 이슈 유형 ['story', 'task', 'bug']
+ * @param {number} templateId                                   - 이슈 템플릿 ID
+ * @param {string?} project                                     - 프로젝트 이름
+ * @param {string} type                                         - 이슈 유형 ['story', 'task', 'bug']
  * @param {string?} summary                                     - 이슈 제목
  * @param {string?} description                                 - 이슈 설명
  * @param {string?} reporter                                    - 보고자
  * @param {string?} assignee                                    - 담당자
- * @param {string?} priority                                    - 우선순위
+ * @param {string?} rank                                        - 우선순위
  * @param {string?} epicLink                                    - 에픽 링크
+ * @param {string?} sprint                                      - 스프린트
  * @param {number?} storyPoints                                 - 스토리 포인트
  * @param {MouseEventHandler<HTMLDivElement>?} clickHandler     - 클릭 이벤트
  *
@@ -66,60 +60,51 @@ interface propsType extends styledType {
 const index = ({
   width,
   height,
-  issueTemplateId,
-  projectId,
-  issueType,
+  templateId,
+  project,
+  type,
   summary,
   description,
   reporter,
   assignee,
-  priority,
+  rank,
   epicLink,
+  sprint,
   storyPoints,
   clickHandler,
   deleteHandler,
   editEnableHandler,
-  userImage,
 }: propsType) => {
-  let iType: string;
-  switch (issueType) {
-    case 'Story':
-      iType = '스토리';
+  let issueType: string;
+  switch (type) {
+    case 'story':
+      issueType = '스토리';
       break;
-    case 'Task':
-      iType = '태스크';
+    case 'task':
+      issueType = '태스크';
       break;
-    case 'Bug':
-      iType = '버그';
-      break;
-    case '10001':
-      iType = '스토리';
-      break;
-    case '10002':
-      iType = '태스크';
-      break;
-    case '10004':
-      iType = '버그';
+    case 'bug':
+      issueType = '버그';
       break;
     default:
-      iType = '에러';
+      issueType = '에러';
       break;
   }
-
   const issueSummary = summary ? summary : '';
   const issueEpicLink = epicLink ? epicLink : '';
   const issueStoryPoints = storyPoints ? storyPoints : '';
 
   const issueData = {
-    issueTemplateId: issueTemplateId,
-    projectId: projectId,
-    issueType: issueType,
+    templateId: templateId,
+    project: project,
+    type: type,
     summary: summary,
     description: description,
     reporter: reporter,
     assignee: assignee,
-    priority: priority,
+    rank: rank,
     epicLink: epicLink,
+    sprint: sprint,
     storyPoints: storyPoints,
   };
   return (
@@ -127,45 +112,41 @@ const index = ({
       <StyledIssue
         width={width}
         height={height}
-        issueType={issueType}
+        type={type}
         onClick={() => clickHandler(issueData)}
       >
-        <StyledIssueTop issueType={issueType}>
-          <Text isFill={false} message={iType} color={'white'}></Text>
+        <StyledIssueTop type={type}>
+          <Text isFill={false} message={issueType} color={'white'}></Text>
           <StyledIssueTopRight>
             <ImBin
               onClick={() => {
-                issueData.projectId = 0;
-                issueData.issueType = '';
+                issueData.project = '';
+                issueData.type = '';
                 issueData.summary = '';
                 issueData.description = '';
                 issueData.reporter = '';
                 issueData.assignee = '';
-                issueData.priority = '';
+                issueData.rank = '';
                 issueData.epicLink = '';
+                issueData.sprint = '';
                 issueData.storyPoints = 0;
-                deleteHandler(issueTemplateId);
+                deleteHandler(templateId);
               }}
             />
             <HiPencil
               onClick={() => {
-                editEnableHandler(issueTemplateId);
+                editEnableHandler(templateId);
               }}
             />
           </StyledIssueTopRight>
         </StyledIssueTop>
         <StyledIssueBottom>
           <Text isFill={false} message={issueSummary}></Text>
+
           <StyledIssueBottomElement>
             <Text isFill={true} message={issueEpicLink} width={24}></Text>
-            <Circle height={'24px'}>
-              {priority === 'Highest' && <FaAngleDoubleUp />}
-              {priority === 'High' && <FaAngleUp />}
-              {priority === 'Medium' && <FaMinus />}
-              {priority === 'Low' && <FaAngleDown />}
-              {priority == 'Lowest' && <FaAngleDoubleDown />}
-            </Circle>
-            <Circle height={'24px'} isImage={true} url={userImage}></Circle>
+            <Circle height={'24px'}>{assignee}</Circle>
+            <Circle height={'24px'}>{rank}</Circle>
             <Text isFill={true} message={issueStoryPoints + ''} width={24}></Text>
           </StyledIssueBottomElement>
         </StyledIssueBottom>

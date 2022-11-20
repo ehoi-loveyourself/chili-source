@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
-export const StyledPage = styled.div`
-  ${tw`w-full flex flex-col`}
-  height: calc(100vh - 92px);
+export interface styledType {
+  height?: string;
+  width?: string;
+}
+
+export const StyledPage = styled.div<styledType>`
+  ${tw`flex flex-col h-screen w-full overflow-hidden`}
 `;
 StyledPage.defaultProps = {};
 
-export const StyledHeader = styled.div``;
+export const StyledHeader = styled.div<styledType>`
+  height: 6rem;
+  min-height: 6rem;
+`;
 
-export const StyledBody = styled.div`
-  ${tw`flex justify-center overflow-hidden`}
+export const StyledBody = styled.div<styledType>`
+  ${tw`flex overflow-hidden`}
 `;

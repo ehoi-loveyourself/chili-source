@@ -8,29 +8,31 @@ export interface issueType extends templateType {
   issueId: number;
 }
 export interface templateType {
-  issueTemplateId: number;
-  projectId: number;
-  issueType: string;
+  templateId: number;
+  project: string;
+  type: string;
   summary: string;
   description: string;
+  reporter: string;
   assignee: string;
-  priority: string;
+  rank: string;
   epicLink: string;
-  sprint: number;
+  sprint: string;
   storyPoints: number;
 }
 const index = () => {
   const dummyIssue: issueType = {
-    issueTemplateId: 0,
+    templateId: 0,
     issueId: 0,
-    projectId: 0,
-    issueType: '',
+    project: '',
+    type: 'story',
     summary: '',
     description: '',
+    reporter: '',
     assignee: '',
-    priority: '',
+    rank: '',
     epicLink: '',
-    sprint: 0,
+    sprint: '',
     storyPoints: 0,
   };
   const [issue, setIssue] = useState<issueType>(dummyIssue);

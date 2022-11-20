@@ -6,13 +6,11 @@ import HeaderNav from 'components/organisms/common/HeaderServiceNav';
 
 const index = () => {
   return (
-    <>
-      <StyledContainer>
-        <HeaderNav></HeaderNav>
-        <MainCalendar></MainCalendar>
-        <SideBarJiraIssues></SideBarJiraIssues>
-      </StyledContainer>
-    </>
+    <StyledContainer>
+      <HeaderNav></HeaderNav>
+      <MainCalendar></MainCalendar>
+      <SideBarJiraIssues></SideBarJiraIssues>
+    </StyledContainer>
   );
 };
 

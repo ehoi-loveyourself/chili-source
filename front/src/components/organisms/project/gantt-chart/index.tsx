@@ -1,4 +1,4 @@
-// Components
-import { Main } from './Main';
+import { Aside } from './Aside';
+import { Section } from './Section';
 
-export { Main };
+export { Aside, Section };

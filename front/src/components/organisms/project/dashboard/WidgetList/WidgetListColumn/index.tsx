@@ -46,12 +46,12 @@ export const WidgetListColumn = ({ id, type, path, dropHandler, children }: prop
   return (
     <StyledWidgetListColumn className="widget-list-column" ref={col} style={{ opacity }}>
       <StyledWidgetListColumnLabel className="widget-list-column-label">
-        <Widget type="LABEL"></Widget>
+        <Widget></Widget>
       </StyledWidgetListColumnLabel>
       {children
-        ? children.map(({ id, type, url }, index) => {
+        ? children.map(({ id, type }, index) => {
             return (
-              <StyledWidgetListItemContainer className="widget-list-item-container" key={id}>
+              <StyledWidgetListItemContainer key={index}>
                 <WidgetDropSpace
                   onDrop={dropHandler}
                   type="ITEM"
@@ -60,7 +60,7 @@ export const WidgetListColumn = ({ id, type, path, dropHandler, children }: prop
                 />
                 <StyledWidgetListItemBox>
                   <WidgetDropSpace onDrop={dropHandler} type="ITEM" path={`${path}-${index}`} />
-                  <WidgetListItem id={id} type={type} path={`${path}-${index}`} url={url} />
+                  <WidgetListItem id={id} type={type} path={`${path}-${index}`} />
                   <WidgetDropSpace onDrop={dropHandler} type="ITEM" path={`${path}-${index + 1}`} />
                 </StyledWidgetListItemBox>
                 <WidgetDropSpace
