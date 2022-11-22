@@ -110,8 +110,8 @@ const index = (props: any) => {
   useEffect(() => {
     if (received) {
       showMiddleBucket();
-      setReceived(false);
     }
+    setReceived(false);
   }, [received]);
   const deleteHandler = (issueId: number) => {
     setBucketList(bucketList.filter(issue => issue.issueId !== issueId));
