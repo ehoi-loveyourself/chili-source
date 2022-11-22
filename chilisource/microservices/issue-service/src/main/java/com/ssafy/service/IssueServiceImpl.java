@@ -62,9 +62,11 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<IssueTemplateResponse> getIssueTemplates(Long userId, Long projectId, Boolean me, List<String> auths) {
-        ProjectResponse response = projectServiceClient.getProject(auths, projectId);
-        if (response == null) {
-            throw new NotFoundException(PROJECT_NOT_FOUND);
+        if (projectId != null) {
+            ProjectResponse response = projectServiceClient.getProject(auths, projectId);
+            if (response == null) {
+                throw new NotFoundException(PROJECT_NOT_FOUND);
+            }
         }
 
         List<IssueTemplate> responses = new ArrayList<>();
@@ -158,9 +160,11 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<MiddleBucketResponse> getMiddleBuckets(Long userId, Long projectId, Boolean me, List<String> auths) {
-        ProjectResponse response = projectServiceClient.getProject(auths, projectId);
-        if (response == null) {
-            throw new NotFoundException(PROJECT_NOT_FOUND);
+        if (projectId != null) {
+            ProjectResponse response = projectServiceClient.getProject(auths, projectId);
+            if (response == null) {
+                throw new NotFoundException(PROJECT_NOT_FOUND);
+            }
         }
 
         List<MiddleBucket> responses = new ArrayList<>();
