@@ -62,9 +62,11 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<IssueTemplateResponse> getIssueTemplates(Long userId, Long projectId, Boolean me, List<String> auths) {
-        ProjectResponse response = projectServiceClient.getProject(auths, projectId);
-        if (response == null) {
-            throw new NotFoundException(PROJECT_NOT_FOUND);
+        if (projectId != null) {
+            ProjectResponse response = projectServiceClient.getProject(auths, projectId);
+            if (response == null) {
+                throw new NotFoundException(PROJECT_NOT_FOUND);
+            }
         }
 
         List<IssueTemplate> responses = new ArrayList<>();
@@ -158,9 +160,11 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<MiddleBucketResponse> getMiddleBuckets(Long userId, Long projectId, Boolean me, List<String> auths) {
-        ProjectResponse response = projectServiceClient.getProject(auths, projectId);
-        if (response == null) {
-            throw new NotFoundException(PROJECT_NOT_FOUND);
+        if (projectId != null) {
+            ProjectResponse response = projectServiceClient.getProject(auths, projectId);
+            if (response == null) {
+                throw new NotFoundException(PROJECT_NOT_FOUND);
+            }
         }
 
         List<MiddleBucket> responses = new ArrayList<>();
@@ -356,9 +360,8 @@ public class IssueServiceImpl implements IssueService {
         return jiraFeignClient.getJiraEpics(jiraBase64);
     }
 
-
     @Override
-    public JiraSprintListResponse getSprints(User user, List<String> auths, Long projectId) {
+    public SprintListResponse getSprints(User user, List<String> auths, Long projectId) {
         ProjectResponse response = projectServiceClient.getProject(auths, projectId);
         if (response == null) {
             throw new NotFoundException(PROJECT_NOT_FOUND);
@@ -372,7 +375,11 @@ public class IssueServiceImpl implements IssueService {
 
         JiraSprintListResponse sprints = jiraFeignClient.getSprints(jiraBase64, boardId);
 
-        return sprints;
+        SprintListResponse sprintListResponse = SprintListResponse.builder()
+                .sprints(sprints.getValues())
+                .build();
+
+        return sprintListResponse;
     }
 
     @Override
@@ -567,9 +574,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public JiraSprintProgressResponse getSprintProgress(User user, List<String> auths, Long projectId, Long sprintId) {
-        JiraSprintListResponse sprints = getSprints(user, auths, projectId);
+        SprintListResponse sprints = getSprints(user, auths, projectId);
 
-        List<JiraSprintResponse> sprintList = sprints.getValues();
+        List<JiraSprintResponse> sprintList = sprints.getSprints();
 
         if (sprintList.size() == 0) throw new NotFoundException(SPRINT_NOT_FOUND);
 
