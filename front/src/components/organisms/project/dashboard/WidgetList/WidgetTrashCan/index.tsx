@@ -17,7 +17,18 @@ interface propsType {
 export const WidgetTrashCan = ({ onThrow }: propsType) => {
   // Init
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ['ITEM', 'COLUMN', 'CALENDAR', 'GANTT', 'JIRA', 'SSAFYGITLAB'],
+    accept: [
+      'ITEM',
+      'COLUMN',
+      'CALENDAR',
+      'FIGMA',
+      'GANTT',
+      'GATHER',
+      'JIRA',
+      'SSAFYGITLAB',
+      'WEBEX',
+      'ZOOM',
+    ],
     drop: (item: itemType) => {
       onThrow(item);
     },
