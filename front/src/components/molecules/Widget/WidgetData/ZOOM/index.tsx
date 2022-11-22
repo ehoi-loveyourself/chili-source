@@ -4,6 +4,14 @@ import { propsType } from '../..';
 // Styles
 import { StyledWidgetData, StyledWidgetDataLabel, StyledWidgetDataContent } from '../style';
 
+/**
+ * 
+ * @description
+ * 줌 위젯 생성 후 대쉬보드에 나타나는 줌 위젯
+ * 
+ * @author inte
+ */
+
 export const ZOOM = ({ url, id }: propsType) => {
   // Methods
   const clickHandler = () => {

@@ -21,6 +21,14 @@ interface propsType extends styledType {
   path?: string;
 }
 
+/**
+ * 
+ * @description
+ * 간트차트 위젯 생성 후 대쉬보드에 나타나는 간트차트 위젯
+ * 
+ * @author inte
+ */
+
 export const GANTT = ({ url }: propsType) => {
   // Init
   const navigate = useNavigate();

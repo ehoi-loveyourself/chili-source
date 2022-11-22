@@ -47,7 +47,11 @@ interface gitLabRepositoryType {
  * 프로젝트 생성 단계 가운데, 깃 연동을 담당하는 컴포넌트
  *
  * @example
- *
+ * <GitLabLinkageToken
+      setIsLinkedGitLab={setIsLinkedGitLab}
+      projectId={projectId}
+    ></GitLabLinkageToken>
+ * 
  * @param {number | undefined}                projectId           프로젝트 ID
  * @param {Dispatch<SetStateAction<boolean>>} setIsLinkedGitLab   깃랩이 연동되었는지 여부 설정용 setState 함수
  *

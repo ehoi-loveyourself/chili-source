@@ -27,6 +27,9 @@ import Circle from 'components/atoms/Circle';
  * 랜딩페이지, 유저 셋팅 페이지, 프로젝트 선택 페이지, 프로젝트 생성 페이지
  * 에서 쓰이는 네비게이션 컴포넌트
  *
+ * @example
+ * <NavInit></NavInit>
+ * 
  * @author bell
  */
 const index = () => {

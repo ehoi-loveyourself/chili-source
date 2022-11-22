@@ -27,6 +27,14 @@ interface propsType {
  * @description
  * 프로젝트 팀원의 색상을 변경하는 컴포넌트
  *
+ * @param {string} userImage  사용자 프로필 이미지 경로    
+ * @param {string} userName   사용자 이름
+ * @param {string} userColor  사용자 지정 컬러
+ * @param {number} projectId  현재 프로젝트 ID
+ * @param {number} userId     사용자 ID
+ * @param {UseMutateFunction<void, unknown, { projectId: number; userColor: string; userId: number }, unknown>} updateTeamColor 팀컬러 수정하는 react-query 커스텀 훅
+ * 
+ * 
  * @author bell
  */
 const index = ({

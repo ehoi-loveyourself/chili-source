@@ -34,6 +34,14 @@ interface propsType {
  * @description
  * 프로젝트 팀원의 권한을 변경하는 컴포넌트
  *
+ * @param {string} roleId       팀원 역할(Master, Maintainer, Developer)
+ * @param {string} userImage    사용자 프로필 이미지
+ * @param {string} userName     사용자 이름
+ * @param {string} projectId    해당 프로젝트 ID
+ * @param {string} userId       사용자 ID
+ * @param {UseMutateFunction<void, unknown, { projectId: number; roleId: string; userId: number }, unknown>} updateTeamRole 팀원 역할 수정하는 react-query 커스텀 훅
+ * @param {UseMutateFunction<void, unknown, { projectId: number; fireUserId: number }, unknown>} deleteFireTeam 팀원 강퇴하는 react-query 커스텀 훅
+ * 
  * @author bell
  */
 const index = ({

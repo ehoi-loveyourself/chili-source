@@ -22,8 +22,11 @@ interface propsType {
  *
  * @example
  *
- * @param {number | undefined}                projectId           프로젝트 ID
- * @param {Dispatch<SetStateAction<boolean>>} setIsLinkedGitLab   깃랩이 연동되었는지 여부 설정용 setState 함수
+ * @param {string}    userImage   초대할 사용자 프로필 이미지
+ * @param {string}    userName    초대할 사용자 이름
+ * @param {projectId} project_id  초대할 프로젝트 ID
+ * @param {number}    userId      초대할 사용자 ID
+ * @param {UseMutateFunction<void, unknown, { projectId: number; userId: number }, unknown>} postInviteTeam   팀에 초대하는 react-query 커스텀 훅
  *
  *
  * @author bell

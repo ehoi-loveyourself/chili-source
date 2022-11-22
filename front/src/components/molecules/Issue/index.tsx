@@ -58,6 +58,8 @@ interface propsType extends styledType {
  * @param {string?} epicLink                                    - 에픽 링크
  * @param {number?} storyPoints                                 - 스토리 포인트
  * @param {MouseEventHandler<HTMLDivElement>?} clickHandler     - 클릭 이벤트
+ * @param {any?} deleteHandler                                  - 삭제 이벤트
+ * @param {any?} editEnableHandler                              - 템플릿 수정 이벤트
  *
  * @author dbcs
  */
