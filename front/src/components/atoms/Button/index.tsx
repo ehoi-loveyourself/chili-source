@@ -12,10 +12,24 @@ interface propsType extends styledType {
  * @description
  * Button 생성 컴포넌트
  *
+ * @example
+ * 디폴트 구현
+ * <Button width={'100px'} height={'40px'}></Button>
+ *
+ * 배경 / 테두리 색 변경
+ * <Button backgroundColor={'red'} borderColor={'blue'}></Button>
+ *
+ * hover 시 배경색 바뀌는 버튼(테두리 색으로 변경)
+ * <Button backgroundColor={'red'} borderColor={'blue'} isHover></Button>
+ *
+ * 클릭 불가능한 버튼
+ * <Button backgroundColor={'red'} borderColor={'blue'} isDisabled></Button>
+ *
  * @param {ReactNode?}                             children        버튼 안에 들어갈 내용
- * @param {number?}                                width           버튼 width [default: 100]
- * @param {number?}                                height          버튼 height [default: 40]
+ * @param {string?}                                width           버튼 width [default: 100px]
+ * @param {string?}                                height          버튼 height [default: 40px]
  * @param {string?}                                fontSize        폰트 크기 [default: 0.85rem]
+ * @param {string?}                                margin          margin 크기 [default: 0px]
  * @param {string?}                                backgroundColor 버튼 배경색 [default: #FFFFFF]
  * @param {string?}                                borderColor     버튼 테두리색 [default: #FFFFFF]
  * - 특정 경우를 제외하고 color가 borderColor를 따라간다.

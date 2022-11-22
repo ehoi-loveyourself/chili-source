@@ -7,7 +7,7 @@ export interface styledType {
 }
 
 export const StyledMain = styled.div<styledType>`
-  ${tw`w-11/12 flex`}
+  ${tw`w-11/12 flex mb-4`}
   height: calc(100vh - 128px);
   max-height: calc(100vh - 128px);
   padding: 8px;

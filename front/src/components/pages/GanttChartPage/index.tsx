@@ -1,9 +1,9 @@
 // styles
-import { StyledPage, StyledHeader, StyledBody, StyledLetterBox } from './style';
+import { StyledPage, StyledHeader, StyledBody } from './style';
 
 // Components
 import HeaderNav from 'components/organisms/common/HeaderServiceNav';
-import { Main } from 'components/organisms/project/gantt-chart';
+import { Info, Main } from 'components/organisms/project/gantt-chart';
 
 const GanttChartPage = () => {
   return (
@@ -13,9 +13,8 @@ const GanttChartPage = () => {
           <HeaderNav />
         </StyledHeader>
         <StyledBody className="body">
-          <StyledLetterBox className="letter-box" />
+          <Info />
           <Main />
-          <StyledLetterBox className="letter-box" />
         </StyledBody>
       </StyledPage>
     </>

@@ -19,10 +19,6 @@ import { Divider, Link } from '@mui/material';
 
 export const SSAFYGITLAB = ({ url, id }: propsType) => {
   // Methods
-  const clickHandler = () => {
-    alert('아직 개발하고 있는 기능입니다.');
-  };
-
   const location = useLocation();
   const projectId = +location.pathname.split('/')[2];
 
@@ -65,7 +61,7 @@ export const SSAFYGITLAB = ({ url, id }: propsType) => {
   // Return
   return (
     <>
-      <StyledWidgetData ratio="1/2" height="265px" onClick={clickHandler}>
+      <StyledWidgetData ratio="1/2" height="265px">
         <StyledWidgetDataLabel>깃랩 (최근 머지)</StyledWidgetDataLabel>
         <StyledWidgetDataContent>
           <StyledDiv>

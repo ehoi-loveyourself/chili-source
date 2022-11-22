@@ -8,6 +8,9 @@ import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import 'gantt-task-react/dist/index.css';
 import { StyledGanttGraph } from './style';
 
+// Components
+import FillButton from 'components/atoms/FillButton';
+
 export const GanttGraph = () => {
   // Init
   const { projectId } = useParams();
@@ -108,7 +111,7 @@ export const GanttGraph = () => {
             onDoubleClick={doubleClickHandler}
             onClick={clickHandler}
             columnWidth={columnWidth}
-            listCellWidth={isChecked ? '120px' : ''}
+            listCellWidth={isChecked ? '160px' : ''}
           />
         </>
       );
@@ -121,21 +124,92 @@ export const GanttGraph = () => {
     }
   };
 
+  const renderBtn = () => {
+    return (
+      <>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            borderRadius: '25px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: isChecked ? '#f4f4f4' : '#ffffff',
+            boxShadow: isChecked
+              ? 'inset 4px 4px 10px -1px rgba(0, 0, 0, 0.25), inset -4px -4px 10px -1px rgba(255, 255, 255, 0.25)'
+              : '4px 4px 10px -1px rgba(0, 0, 0, 0.25), -4px -4px 10px -1px rgba(255, 255, 255, 0.25)',
+          }}
+        >
+          {isChecked ? '이슈 내용 숨기기' : '이슈 내용 보기'}
+        </div>
+      </>
+    );
+  };
+
   // Return
   return (
     <>
       <StyledGanttGraph>
-        <div style={{ display: 'flex' }}>
-          <button onClick={() => setView(ViewMode.Hour)}>시간별</button>
-          <button onClick={() => setView(ViewMode.Day)}>일별</button>
-          <button onClick={() => setView(ViewMode.Month)}>달별</button>
-          <button onClick={() => setView(ViewMode.Year)}>년별</button>
-          <div>이슈 보기</div>
-          <input
-            type="checkbox"
-            defaultChecked={isChecked}
-            onClick={() => setIsChecked(!isChecked)}
-          />
+        <div style={{ marginBottom: '8px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div onClick={() => setIsChecked(!isChecked)} style={{ height: '50px', width: '120px' }}>
+            {renderBtn()}
+          </div>
+          <FillButton
+            width="50px"
+            height="50px"
+            clickHandler={() => setView(ViewMode.Hour)}
+            isHover={true}
+            hoverColor="#00875a"
+            backgroundColor={(() => {
+              if (view == ViewMode.Hour) return '#00875a';
+              return '#54c270';
+            })()}
+          >
+            시간 단위
+          </FillButton>
+          <FillButton
+            width="50px"
+            height="50px"
+            clickHandler={() => setView(ViewMode.Day)}
+            isHover={true}
+            hoverColor="#00875a"
+            backgroundColor={(() => {
+              if (view == ViewMode.Day) return '#00875a';
+              return '#54c270';
+            })()}
+          >
+            일<br />
+            단위
+          </FillButton>
+          <FillButton
+            width="50px"
+            height="50px"
+            clickHandler={() => setView(ViewMode.Month)}
+            isHover={true}
+            hoverColor="#00875a"
+            backgroundColor={(() => {
+              if (view == ViewMode.Month) return '#00875a';
+              return '#54c270';
+            })()}
+          >
+            월<br />
+            단위
+          </FillButton>
+          <FillButton
+            width="50px"
+            height="50px"
+            clickHandler={() => setView(ViewMode.Year)}
+            isHover={true}
+            hoverColor="#00875a"
+            backgroundColor={(() => {
+              if (view == ViewMode.Year) return '#00875a';
+              return '#54c270';
+            })()}
+          >
+            년<br />
+            단위
+          </FillButton>
         </div>
         {renderGantt()}
       </StyledGanttGraph>
