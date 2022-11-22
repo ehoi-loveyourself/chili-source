@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import {
   StyledIssue,
   StyledIssueTop,
@@ -33,6 +33,7 @@ interface propsType extends styledType {
   clickHandler?: any;
   deleteHandler?: any;
   editEnableHandler?: any;
+  assigneeName?: string;
 }
 
 /**
@@ -78,6 +79,7 @@ const index = ({
   clickHandler,
   deleteHandler,
   editEnableHandler,
+  assigneeName,
   userImage,
 }: propsType) => {
   let iType: string;
@@ -121,14 +123,20 @@ const index = ({
     epicLink: epicLink,
     storyPoints: storyPoints,
   };
+
+  const getIssueTemplateHandler = (e: MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).innerText) {
+      clickHandler(issueData);
+    }
+  };
   return (
     <>
       <StyledIssue
         width={width}
         height={height}
         issueType={issueType}
-        onClick={() => {
-          clickHandler(issueData);
+        onClick={e => {
+          getIssueTemplateHandler(e);
           editEnableHandler(issueTemplateId);
         }}
       >
@@ -162,7 +170,9 @@ const index = ({
               {priority === 'Low' && <FaAngleDown />}
               {priority == 'Lowest' && <FaAngleDoubleDown />}
             </Circle>
-            <Circle height={'24px'} isImage={true} url={userImage}></Circle>
+
+            {assigneeName && <Text isFill={true} message={assigneeName} width={24}></Text>}
+            {userImage && <Circle height={'24px'} isImage={true} url={userImage}></Circle>}
             <Text isFill={true} message={issueStoryPoints + ''} width={24}></Text>
           </StyledIssueBottomElement>
         </StyledIssueBottom>

@@ -63,12 +63,25 @@ export default {
    * @author dbcs
    */
   getIssueTemplateList: async (projectId: number) => {
+    interface templateType {
+      issueTemplateId: number;
+      projectId: number;
+      issueType: string;
+      summary: string;
+      description: string;
+      assignee: string;
+      priority: string;
+      epicLink: string;
+      sprint: number;
+      storyPoints: number;
+      userImage: string;
+    }
     return new Promise<templateType[]>((resolve, reject) => {
       issueAxios
         .get('/', {
           params: {
-            projectId: projectId,
-            me: true,
+            projectId,
+            me: false,
           },
         })
         .then(response => {
@@ -152,8 +165,15 @@ export default {
     }
   },
   getEpicList: async () => {
+    interface issueType {
+      fields: {
+        summary: string;
+      };
+      key: string;
+    }
+
     interface responseType {
-      issues: any;
+      issues: issueType[];
     }
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
@@ -237,10 +257,19 @@ export default {
         });
     });
   },
-  getSprintList: async (projectId: number) => {
-    interface responseType {
-      values: any;
+  getSprintList: (projectId: number) => {
+    interface sprintType {
+      goal: string;
+      id: 0;
+      name: string;
+      originBoardId: 0;
+      state: string;
     }
+
+    interface responseType {
+      sprints: sprintType[];
+    }
+
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
         .get(`/jira/sprint/${projectId}`)
@@ -273,11 +302,8 @@ export default {
         });
     });
   },
-  postCreateMiddleBucket: async (name: string, projectId: number) => {
-    interface responseType {
-      data: any;
-    }
-    return new Promise<responseType[]>((resolve, reject) => {
+  postCreateMiddleBucket: (name: string, projectId: number) => {
+    return new Promise((resolve, reject) => {
       const data = {
         name: name,
         projectId: projectId,
@@ -309,7 +335,7 @@ export default {
         });
     });
   },
-  deleteMiddleBucket: async (middleBucketId: number) => {
+  deleteMiddleBucket: (middleBucketId: number) => {
     return new Promise((resolve, reject) => {
       issueAxios
         .delete(`/middle-buckets/${middleBucketId}`)
@@ -321,12 +347,7 @@ export default {
         });
     });
   },
-  getIssueList: async (middleBucketId: number) => {
-    interface responseType {
-      issueList: issueType[];
-      middleBucketId: number;
-      middleBucketName: string;
-    }
+  getIssueListInMiddleBucket: async (middleBucketId: number) => {
     interface issueType {
       assignee: string;
       description: string;
@@ -337,6 +358,11 @@ export default {
       sprint: number;
       storyPoints: number;
       summary: string;
+    }
+    interface responseType {
+      issueList: issueType[];
+      middleBucketId: number;
+      middleBucketName: string;
     }
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
@@ -444,23 +470,42 @@ export default {
         });
     });
   },
-  postAddIssue: async (middleBucketId: number, request: any) => {
-    interface responseType {
-      data: any;
-    }
-    const data = {
-      assignee: request.assignee,
-      description: request.description,
-      epicLink: request.epicLink,
-      issueType: request.issueType,
-      priority: request.priority,
-      sprint: request.sprint,
-      storyPoints: request.storyPoints,
-      summary: request.summary,
-    };
-    return new Promise<responseType>((resolve, reject) => {
+  postAddIssue: async (
+    middleBucketId: number,
+    assignee: string,
+    description: string,
+    epicLink: string,
+    issueType: string,
+    priority: string,
+    sprint: number,
+    storyPoints: number,
+    summary: string,
+  ) => {
+    // // interface responseType {
+    // //   data: any;
+    // // }
+    // const data = {
+    //   assignee,
+    //   description,
+    //   epicLink,
+    //   issueType,
+    //   priority,
+    //   sprint,
+    //   storyPoints,
+    //   summary,
+    // };
+    return new Promise((resolve, reject) => {
       issueAxios
-        .post(`/middle-buckets/${middleBucketId}`, data)
+        .post(`/middle-buckets/${middleBucketId}`, {
+          assignee,
+          description,
+          epicLink,
+          issueType,
+          priority,
+          sprint,
+          storyPoints,
+          summary,
+        })
         .then(response => {
           resolve(response.data);
         })
@@ -469,7 +514,7 @@ export default {
         });
     });
   },
-  deleteIssue: async (middleBucketId: number, middleBucketIssueId: number) => {
+  deleteIssueInMiddleBucket: async (middleBucketId: number, middleBucketIssueId: number) => {
     return new Promise((resolve, reject) => {
       issueAxios
         .delete(`/middle-buckets/${middleBucketId}/${middleBucketIssueId}`)
@@ -499,7 +544,6 @@ export default {
           resolve(response.data);
         })
         .catch(error => {
-          console.log('ㅈ됨');
           reject(error);
         });
     });
