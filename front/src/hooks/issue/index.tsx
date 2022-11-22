@@ -200,8 +200,10 @@ export const useGetMiddeBucketList = (pjtId: number) => {
  * @author bell
  */
 export const useGetIssueListInMiddleBucket = (middleBucketId: number) => {
-  return useQuery(['get-issue-list-for-middle-bucket', middleBucketId], () =>
-    issue.getIssueListInMiddleBucket(middleBucketId),
+  return useQuery(
+    ['get-issue-list-for-middle-bucket', middleBucketId],
+    () => issue.getIssueListInMiddleBucket(middleBucketId),
+    { enabled: false },
   );
 };
 

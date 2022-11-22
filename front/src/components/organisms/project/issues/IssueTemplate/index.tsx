@@ -62,13 +62,6 @@ interface templateType {
 }
 
 const index = (props: any) => {
-  // interface sprintType {
-  //   goal: string;
-  //   id: number;
-  //   name: string;
-  //   originBoardId: number;
-  //   state: string;
-  // }
   const { projectId } = useParams();
   const pjtId = Number(projectId);
 
@@ -268,8 +261,12 @@ const index = (props: any) => {
           width="300px"
         />
       )}
-      {putEditIssueTemplate.isError && (
-        <Notification check={false} message="이슈 템플릿을 수정할 수 없습니다." width="300px" />
+      {postCreateIssueTemplate.isSuccess && (
+        <Notification
+          check={true}
+          message="이슈템플릿을 성공적으로 생성하였습니다."
+          width="300px"
+        />
       )}
       <StyledIssueBundle>
         <StyledIssueTemplate>
@@ -353,7 +350,7 @@ const index = (props: any) => {
               margin={'0 0 0 10px'}
               clickHandler={insertIssueHandler}
             >
-              Insert to Bucket
+              Insert Bucket
             </Button>
           </StyledIssueInfoHeader>
           <Sheet isShadow={true} flex={'column'} height={'90%'} isOverflowYScroll={true}>
@@ -363,6 +360,7 @@ const index = (props: any) => {
                 labelName={'프로젝트'}
                 inputValue={getProject ? getProject.name : ''}
                 ref={projectRef}
+                labelMarginBottom={'10px'}
                 disabled
               />
               <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
@@ -386,12 +384,14 @@ const index = (props: any) => {
                 labelName={'요약'}
                 inputValue={props.issue.summary}
                 ref={summaryRef}
+                labelMarginBottom={'10px'}
               />
               <TextAreaBox
                 isRow={false}
                 labelName={'설명'}
                 textAreaValue={props.issue.description}
                 ref={descriptionRef}
+                labelMarginBottom={'10px'}
                 nonResize
               />
               <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
@@ -461,6 +461,7 @@ const index = (props: any) => {
                 labelName={'Story Points'}
                 inputValue={props.issue.storyPoints + ''}
                 ref={storyPointsRef}
+                labelMarginBottom={'10px'}
               />
             </StyledIssueInfoBody>
           </Sheet>

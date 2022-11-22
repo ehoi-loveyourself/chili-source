@@ -25,9 +25,12 @@ import Circle from 'components/atoms/Circle';
 import Sheet from 'components/atoms/Sheet';
 import Button from 'components/atoms/Button';
 import Text from 'components/atoms/Text';
+
+// ICONS
 import { ImBin } from 'react-icons/im';
 import { HiPlus, HiPencil } from 'react-icons/hi';
 import { theme } from 'styles/theme';
+import { FaJira } from 'react-icons/fa';
 import { Select, FormControl, InputLabel, MenuItem, Modal, Box, Typography } from '@mui/material';
 import {
   useDeleteIssueInMiddeBucket,
@@ -40,10 +43,6 @@ import {
   usePutEditMiddleBucket,
 } from 'hooks/issue';
 
-interface middleBucketType {
-  middleBucketId: number;
-  name: string;
-}
 interface requestType {
   middleBucketId: number;
   assignee: string;
@@ -83,8 +82,6 @@ const index = (props: any) => {
 
   // react-query
   const getUser = useGetUserInfoHandler();
-  const myImg = getUser.data ? getUser.data.image : '';
-
   const getMiddleBucketList = useGetMiddeBucketList(pjtId);
   const getIssueListForMiddleBucket = useGetIssueListInMiddleBucket(bucketId as number);
   const deleteIssueInMiddleBucket = useDeleteIssueInMiddeBucket();
@@ -93,26 +90,9 @@ const index = (props: any) => {
   const deleteMiddleBucket = useDeleteMiddleBucket();
   const putEditMiddleBucket = usePutEditMiddleBucket();
   const postSendToJira = usePostSendToJira();
-  // const [middleBucketList, setMiddleBucketList] = useState<middleBucketType[]>([]);
-  // const pushMiddleBucketList = async () => {
-  //   const mList: middleBucketType[] = [];
-  //   for (let i = 0; i < (await getMiddleBucketList).length; i++) {
-  //     mList.push((await getMiddleBucketList)[i]);
-  //   }
-  //   setMiddleBucketList(mList);
-  // };
-  // useEffect(() => {
-  //   pushMiddleBucketList();
-  // }, []);
 
-  const [bucketList, setBucketList] = useState<bucketType[]>([]);
-  const showMiddleBucket = async () => {
-    // const bList: bucketType[] = [];
-    // for (let i = 0; i < (await bucket).issueList.length; i++) {
-    //   bList.push((await bucket).issueList[i]);
-    // }
-    // setBucketList(bList);
-  };
+  const myImg = getUser.data ? getUser.data.image : '';
+
   const [received, setReceived] = useState(false);
   useEffect(() => {
     if (props.isInsert) {
@@ -129,7 +109,7 @@ const index = (props: any) => {
       };
 
       setIssueId(issueId + 1);
-      // issueAxios.postAddIssue(bucketId, request);
+
       postAddIssue.mutateAsync(request).then(() => getIssueListForMiddleBucket.refetch());
 
       setReceived(true);
@@ -145,13 +125,11 @@ const index = (props: any) => {
 
   useEffect(() => {
     if (received) {
-      // showMiddleBucket();
       setReceived(false);
     }
   }, [received]);
+
   const deleteHandler = (issueId: number) => {
-    // setBucketList(bucketList.filter(issue => issue.issueId !== issueId));
-    // issueAxios.deleteIssue(bucketId, issueId);
     deleteIssueInMiddleBucket
       .mutateAsync({
         middleBucketId: bucketId,
@@ -225,6 +203,7 @@ const index = (props: any) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="미들버킷"
+              sx={{ width: '200px' }}
               onChange={e => {
                 changeHandler(e, 'bucket');
               }}
@@ -365,12 +344,14 @@ const index = (props: any) => {
         <Button
           borderColor={'#1973ee'}
           isHover
+          width={'40px'}
+          height={'40px'}
           margin={'5px'}
           clickHandler={() => {
             sendToJiraHandler();
           }}
         >
-          Send To Jira
+          <FaJira size={'1.8rem'} />
         </Button>
       </StyledBucketHeader>
       <Sheet
