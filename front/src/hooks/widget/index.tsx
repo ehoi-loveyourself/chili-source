@@ -141,8 +141,10 @@ export const useDeleteLayout = () => {
     {
       onSuccess: () => {
         // 요청이 성공한 경우
-        console.log('[delete layout success]');
         queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+      },
+      onError: () => {
+        alert('위젯 제거에 실패했습니다.');
       },
     },
   );
