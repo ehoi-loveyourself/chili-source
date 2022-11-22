@@ -6,6 +6,12 @@ import Calendar from 'assets/images/Guide-calender.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { theme } from 'styles/theme';
 
+/**
+ * @description
+ * 칠리소스 오픈소스 가이드 메인
+ * 
+ * @author bell
+ */
 const index = () => {
   const location = useLocation();
   const idx = +location.pathname.split('/')[2];
