@@ -6,11 +6,11 @@ import com.ssafy.dto.request.*;
 import com.ssafy.dto.response.IssueListResponse;
 import com.ssafy.dto.response.IssueTemplateResponse;
 import com.ssafy.dto.response.MiddleBucketResponse;
+import com.ssafy.dto.response.SprintListResponse;
 import com.ssafy.dto.response.jira.epic.JiraEpicListResponse;
 import com.ssafy.dto.response.jira.issue.JiraIssueListResponse;
 import com.ssafy.dto.response.jira.issue.JiraIssueResponse;
 import com.ssafy.dto.response.jira.project.JiraProjectResponse;
-import com.ssafy.dto.response.jira.sprint.JiraSprintListResponse;
 import com.ssafy.dto.response.jira.sprint.JiraSprintProgressResponse;
 import com.ssafy.service.IssueService;
 import io.swagger.annotations.Api;
@@ -261,12 +261,12 @@ public class IssueController {
     // 현 프로젝트의 스프린트 목록 가져오기
     @GetMapping("/jira/sprint/{projectId}")
     @ApiOperation(value = "현재 프로젝트의 스프린트 목록 가져오기")
-    public ResponseEntity<JiraSprintListResponse> getSprints(
+    public ResponseEntity<SprintListResponse> getSprints(
             @LoginUser User user,
             @RequestHeader HttpHeaders headers,
             @ApiParam(value = "JIRA와 연동된 프로젝트 id") @PathVariable Long projectId
     ) {
-        JiraSprintListResponse response = issueService.getSprints(
+        SprintListResponse response = issueService.getSprints(
                 user,
                 headers.get(HttpHeaders.AUTHORIZATION),
                 projectId
