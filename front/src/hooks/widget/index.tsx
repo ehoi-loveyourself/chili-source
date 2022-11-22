@@ -135,14 +135,16 @@ export const useDeleteLayout = () => {
       await deletedItems.map(async ({ id }) => {
         await widget.deleteWidget(id);
       });
-
+      console.log('[변경할 데이터]', updatedWidgetList);
       await widget.setWidgetList(updatedWidgetList);
     },
     {
       onSuccess: () => {
         // 요청이 성공한 경우
-        console.log('[delete layout success]');
         queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+      },
+      onError: () => {
+        alert('위젯 삭제에 실패했습니다.');
       },
     },
   );
@@ -194,7 +196,11 @@ export const useSetLayout = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['layout']); // queryKey 강제로 만기 시키기 -> 당장 다시 값 얻어와
+        // 요청이 성공한 경우
+        queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+      },
+      onError: () => {
+        alert('위젯 조작에 실패했습니다.');
       },
     },
   );
