@@ -5,12 +5,12 @@ import com.ssafy.dto.request.*;
 import com.ssafy.dto.response.IssueListResponse;
 import com.ssafy.dto.response.IssueTemplateResponse;
 import com.ssafy.dto.response.MiddleBucketResponse;
+import com.ssafy.dto.response.SprintListResponse;
 import com.ssafy.dto.response.jira.epic.JiraEpicListResponse;
-import com.ssafy.dto.response.jira.project.JiraProjectResponse;
-import com.ssafy.dto.response.jira.sprint.JiraSprintListResponse;
-import com.ssafy.dto.response.jira.sprint.JiraSprintProgressResponse;
 import com.ssafy.dto.response.jira.issue.JiraIssueListResponse;
 import com.ssafy.dto.response.jira.issue.JiraIssueResponse;
+import com.ssafy.dto.response.jira.project.JiraProjectResponse;
+import com.ssafy.dto.response.jira.sprint.JiraSprintProgressResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -68,7 +68,7 @@ public interface IssueService {
     List<JiraProjectResponse> getProjectList(User user, List<String> auths);
 
     // 스프린트 목록 조회
-    JiraSprintListResponse getSprints(User user, List<String> auths, Long projectId);
+    SprintListResponse getSprints(User user, List<String> auths, Long projectId);
 
     // jira의 이슈 단일 조회
     JiraIssueResponse getIssue(User user, List<String> auths, String issueKey);
