@@ -37,6 +37,23 @@ interface propsType {
  * 서버 db에 저장된 지라 이슈를 가져오는 캘린더 전용 간트
  * 수정할 수 있는 모달을 가지고 있다.
  *
+ * @example
+ * // deleteGantt = useDeleteGantt();
+ * // getGanttChart = useGetGanttChart(1, projectId);
+ * 
+ * <CalendarGantt
+      issueCode={event._def.extendedProps.issueCode}
+      ganttChartId={event._def.extendedProps.ganttChartId}
+      deleteGantt={deleteGantt}
+      getGanttChart={getGanttChart}
+      projectId={projectId}
+    ></CalendarGantt>
+ *    
+ * @param {string}                                              issueCode     각 이슈의 코드
+ * @param {number}                                              ganttChartId  간트차트의 ID
+ * @param {number}                                              projectId     프로젝트 ID
+ * @param {UseMutationResult<void, unknown, number, unknown>}   deleteGantt   간트차트를 삭제하는 react-query 커스텀 훅
+ * @param {UseQueryResult}                                      getGanttChart 간트차트를 불러오는 react-query 커스텀 훅
  * @author bell
  */
 const index = ({ issueCode, ganttChartId, deleteGantt, projectId }: propsType) => {
