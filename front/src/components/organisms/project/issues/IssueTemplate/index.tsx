@@ -61,6 +61,16 @@ interface templateType {
   userImage: string;
 }
 
+/**
+ * @description
+ * 미들버킷 페이지의 이슈 템플릿 기능.
+ * 등록한 템플릿을 클릭 시 해당 정보를 빠르게 받아올 수 있다.
+ *
+ * @param {any} props 부모 컴포넌트로부터 받아오는 이슈 state, setState props
+ *
+ * @author dbcs
+ */
+
 const index = (props: any) => {
   const { projectId } = useParams();
   const pjtId = Number(projectId);

@@ -91,6 +91,12 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 특정 프로젝트 ID를 가진 프로젝트의 데이터를 가져오는 API
+   * @param {number} projectId 프로젝트 ID
+   * @returns 
+   */
   getProject: (projectId: number) => {
     interface responseType {
       id: string;

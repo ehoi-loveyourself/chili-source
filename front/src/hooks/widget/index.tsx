@@ -206,12 +206,24 @@ export const useSetLayout = () => {
   );
 };
 
+/** 
+ * @description
+ * 깃랩 레포지토리를 가져오는 커스텀 훅
+ * 
+ * @returns 
+ */
 export const useGetGitlabRepositories = (tokenCodeId: string) => {
   return useQuery(['get-repositories'], () => widget.getGitlabRepositories(tokenCodeId), {
     enabled: false,
   });
 };
 
+/**
+ * @description
+ * 머지 리퀘스트 또는 커밋 이력을 가져오는 커스텀 훅
+ *  
+ * @returns 
+ */
 export const useGetGitMRorCommit = (
   branch: string | null,
   projectId: number,

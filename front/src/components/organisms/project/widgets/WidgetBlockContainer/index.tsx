@@ -4,6 +4,13 @@ import { StyledWidgetBlockContainer, StyledWidgetBlockBox } from './style';
 // Components
 import { WidgetBlock } from 'components/molecules/WidgetBlock';
 
+/**
+ * @description
+ * 위젯 선택 페이지의 기능별 위젯들을 담은 컨테이너 영역
+ *
+ * @author inte
+ */
+
 export const WidgetBlockContainer = () => {
   // Init
   const widgetBlockData = [[], []];

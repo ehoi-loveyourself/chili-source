@@ -3,6 +3,12 @@ import { useLocation } from 'react-router-dom';
 
 import { auth } from 'api/rest';
 
+/**
+ * @description
+ * 유저 로그인 클릭 후 로딩 페이지
+ *
+ * @author inte
+ */
 const UserLoginLoadingPage = () => {
   // Init
   const locate = useLocation();

@@ -20,6 +20,12 @@ const widgetAxios = createAxiosApi('widget-service');
  * @author inte
  */
 export default {
+  /**
+   * @description
+   * 특정 프로젝트 ID를 가진 프로젝트의 위젯 리스트를 가져오는 API
+   * @param {number} projectId 프로젝트 ID
+   * @returns 
+   */
   getWidgetList: (projectId: number) => {
     interface responseType {
       id: number;
@@ -42,6 +48,17 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 위젯을 추가하는 API
+   * 
+   * @param {number} projectId      프로젝트 ID
+   * @param {string} widgetCodeId   위젯코드 ID
+   * @param {number} widgetCol      위젯 열 번호
+   * @param {number} widgetRow      위젯 행 번호
+   * @param {string} url            url
+   * @returns 
+   */
   addWidget: (
     projectId: number,
     widgetCodeId: string,
@@ -85,6 +102,14 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 위젯을 삭제하는 API
+   * 
+   * @param {number} widgetId 위젯 ID
+   * @returns 
+   */
+
   deleteWidget: (widgetId: number) => {
     return new Promise<string>((resolve, reject) => {
       widgetAxios
@@ -98,6 +123,13 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 위젯 리스트를 set하는 API
+   * 
+   * @param payload id, 행번호, 열번호를 가진 객체
+   * @returns 
+   */
   setWidgetList: (payload: { id: number; widgetRow: number; widgetCol: number }[]) => {
     return new Promise((resolve, reject) => {
       widgetAxios
@@ -111,6 +143,13 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 깃랩 레포지토리를 가져오는 API
+   * 
+   * @param {string} tokenCodeId 토큰코드 ID
+   * @returns 
+   */
   getGitlabRepositories: (tokenCodeId: string) => {
     interface returnType {
       id: number;
@@ -136,6 +175,16 @@ export default {
     });
   },
 
+  /**
+   * @description
+   * 머지 리퀘스트 또는 커밋 이력을 가져오는 API
+   * 
+   * @param {string | null} branch  브랜치 이름
+   * @param {number} projectId      프로젝트 ID
+   * @param {string} tokenCodeId    토큰코드 ID
+   * @param {string} widgetType     크기별 위젯 종류
+   * @returns 
+   */
   getGitMRorCommit: (
     branch: string | null,
     projectId: number,
