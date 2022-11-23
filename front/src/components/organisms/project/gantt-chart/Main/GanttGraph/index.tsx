@@ -11,6 +11,13 @@ import { StyledGanttGraph } from './style';
 // Components
 import FillButton from 'components/atoms/FillButton';
 
+/**
+ * @description
+ * 간트차트 기능 중 그래프 기능
+ * 시간 단위별 이슈 일정 열람, 이슈 날짜 지정 및 삭제가 가능하다.
+ *
+ * @author inte
+ */
 export const GanttGraph = () => {
   // Init
   const { projectId } = useParams();

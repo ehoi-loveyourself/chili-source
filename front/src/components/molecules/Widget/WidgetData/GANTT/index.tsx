@@ -22,10 +22,10 @@ interface propsType extends styledType {
 }
 
 /**
- * 
+ *
  * @description
  * 간트차트 위젯 생성 후 대쉬보드에 나타나는 간트차트 위젯
- * 
+ *
  * @author inte
  */
 

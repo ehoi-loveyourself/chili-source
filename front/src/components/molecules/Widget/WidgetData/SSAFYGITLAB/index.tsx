@@ -18,10 +18,10 @@ import { theme } from 'styles/theme';
 import { Divider, Link } from '@mui/material';
 
 /**
- * 
+ *
  * @description
  * SSAFY 깃랩 위젯 생성 후 대쉬보드에 나타나는 SSAFY 깃랩 위젯
- * 
+ *
  * @author bell
  */
 

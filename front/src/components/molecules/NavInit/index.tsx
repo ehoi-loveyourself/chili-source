@@ -29,7 +29,7 @@ import Circle from 'components/atoms/Circle';
  *
  * @example
  * <NavInit></NavInit>
- * 
+ *
  * @author bell
  */
 const index = () => {

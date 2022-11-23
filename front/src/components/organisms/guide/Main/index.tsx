@@ -9,7 +9,7 @@ import { theme } from 'styles/theme';
 /**
  * @description
  * 칠리소스 오픈소스 가이드 메인
- * 
+ *
  * @author bell
  */
 const index = () => {

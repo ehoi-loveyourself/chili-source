@@ -41,10 +41,10 @@ interface propsType {
  *
  * @example
  * <ProjectCreate setIsCreated={setIsCreated} setProjectId={setProjectId} />
- * 
+ *
  * @param {Dispatch<SetStateAction<number | undefined>>}  setProjectId  프로젝트 생성시 프로젝트 ID 상태 저장하는 setState
  * @param {Dispatch<SetStateAction<boolean>>}             setIsCreated  프로젝트 생성시 프로젝트 생성여부 상태 저장하는 setState
- * 
+ *
  * @author bell
  */
 const index = ({ setProjectId, setIsCreated }: propsType) => {

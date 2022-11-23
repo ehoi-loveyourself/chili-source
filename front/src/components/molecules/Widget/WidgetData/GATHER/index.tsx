@@ -5,10 +5,10 @@ import { propsType } from '../..';
 import { StyledWidgetData, StyledWidgetDataLabel, StyledWidgetDataContent } from '../style';
 
 /**
- * 
+ *
  * @description
  * 게더타운 위젯 생성 후 대쉬보드에 나타나는 게더타운 위젯
- * 
+ *
  * @author inte
  */
 
