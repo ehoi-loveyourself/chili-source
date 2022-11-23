@@ -39,6 +39,15 @@ interface jiraProjectType {
  * @description
  * 프로젝트 생성 단계 가운데, 지라 연동을 담당하는 컴포넌트
  *
+ * @example
+ * <JiraLinkageToken
+      setIsLinkedJira={setIsLinkedJira}
+      projectId={projectId}
+    ></JiraLinkageToken>
+ * 
+ * @param {number | undefined}                projectId       프로젝트 ID
+ * @param {Dispatch<SetStateAction<boolean>>} setIsLinkedJira 지라가 연동되었는지 여부 설정용 setState 함수
+ * 
  * @author bell
  */
 const index = ({ projectId, setIsLinkedJira }: propsType) => {

@@ -44,6 +44,10 @@ interface propsType {
  * @description
  * 프로젝트 선택페이지에서 프로젝트 하나 하나마다 쓰이는 sheet 컴포넌트 영역
  *
+ * @param {number} idx
+ * @param {object} item   프로젝트 ID, 이름, 설명, 메인 이미지, gitRepository, 간트 최선버전, 토큰 리스트 같은 정보가 담긴 객체
+ * @param {UseMutationResult<void, unknown, { projectId: number }, unknown>} deleteProject 프로젝트를 삭제하는 react-query 커스텀 훅
+ *
  * @author bell
  */
 const index = ({ idx, item, deleteProject }: propsType) => {
