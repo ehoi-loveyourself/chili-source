@@ -29,6 +29,8 @@ export const useGetLayout = () => {
 
       const response = await widget.getWidgetList(Number(projectId));
 
+      console.log('[set layout response]: ', response);
+
       response.map(({ id, widgetCode, widgetRow, widgetCol, requestUrl }) => {
         while (updatedLayout.length <= widgetCol) {
           updatedLayout.push({ id: 0, children: [] });
@@ -45,6 +47,8 @@ export const useGetLayout = () => {
           };
         }
       });
+
+      console.log('[set layout calc data]: ', updatedLayout);
 
       return updatedLayout;
     },
@@ -78,7 +82,9 @@ export const useAddLayout = () => {
     {
       onSuccess: () => {
         // 요청이 성공한 경우
-        queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+        setTimeout(() => {
+          queryClient.invalidateQueries(['layout']);
+        }, 100); // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
       },
       onError: () => {
         alert('위젯 추가에 실패했습니다.');
@@ -136,12 +142,14 @@ export const useDeleteLayout = () => {
         await widget.deleteWidget(id);
       });
       console.log('[변경할 데이터]', updatedWidgetList);
-      await widget.setWidgetList(updatedWidgetList);
+      const resp = await widget.setWidgetList(updatedWidgetList);
+      console.log('[데이터 변경 응답]', resp);
     },
     {
       onSuccess: () => {
-        // 요청이 성공한 경우
-        queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+        setTimeout(() => {
+          queryClient.invalidateQueries(['layout']);
+        }, 100); // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
       },
       onError: () => {
         alert('위젯 삭제에 실패했습니다.');
@@ -197,7 +205,9 @@ export const useSetLayout = () => {
     {
       onSuccess: () => {
         // 요청이 성공한 경우
-        queryClient.invalidateQueries(['layout']); // queryKey 유효성 제거
+        setTimeout(() => {
+          queryClient.invalidateQueries(['layout']);
+        }, 100); // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
       },
       onError: () => {
         alert('위젯 조작에 실패했습니다.');

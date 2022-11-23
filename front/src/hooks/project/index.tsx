@@ -268,8 +268,8 @@ export const useGetGanttTasks = (op: number, userId?: number, start?: string, en
         styles: {
           backgroundColor: colorPalette.get(Number(item.userId)),
           backgroundSelectedColor: colorPalette.get(Number(item.userId)),
-          progressColor: '#aeb8c2aa',
-          progressSelectedColor: '#aeb8c2aa',
+          progressColor: '#111111aa',
+          progressSelectedColor: '#111111aa',
         },
       };
 
