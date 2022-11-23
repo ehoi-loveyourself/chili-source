@@ -15,6 +15,13 @@ import {
 // Components
 import Sheet from 'components/atoms/Sheet';
 
+/**
+ * @description
+ * 간트차트 페이지 상단의 기능 소개 부분
+ *
+ * @author inte
+ */
+
 export const Info = () => {
   // Return
   return (

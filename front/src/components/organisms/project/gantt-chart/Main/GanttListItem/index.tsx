@@ -12,6 +12,14 @@ interface propsType {
   id?: number;
 }
 
+/**
+ * @description
+ *
+ * @param {number?} id
+ *
+ * @author inte
+ */
+
 export const GanttListItem = ({ id }: propsType) => {
   const [{ isDragging }, drag] = useDrag({
     type: 'ITEM',
