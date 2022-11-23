@@ -46,6 +46,7 @@ export const WidgetDropSpace = ({
       'SSAFYGITLAB',
       'WEBEX',
       'ZOOM',
+      'EXAMPLE',
     ],
     drop: item => {
       const dropItem: itemType = {

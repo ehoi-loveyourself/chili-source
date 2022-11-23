@@ -45,9 +45,7 @@ const index = () => {
 
   return (
     <StyledIssuesPage>
-      <StyledHeader>
-        <HeaderNav></HeaderNav>
-      </StyledHeader>
+      <HeaderNav></HeaderNav>
       <StyledBody>
         <IssueTemplate issue={issue} setIssue={setIssue} setIsInsert={setIsInsert}></IssueTemplate>
         <MiddleBucket issue={issue} isInsert={isInsert} setIsInsert={setIsInsert}></MiddleBucket>

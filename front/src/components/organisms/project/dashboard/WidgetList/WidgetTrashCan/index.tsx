@@ -4,7 +4,7 @@ import { BsTrash } from 'react-icons/bs';
 import { itemType } from '../';
 
 // Styles
-import { StyledWidgetTrashCan } from './style';
+import { StyledWidgetTrashCan, StyledWidgetTrashCanContent } from './style';
 
 interface propsType {
   data?: any;
@@ -53,7 +53,9 @@ export const WidgetTrashCan = ({ onThrow }: propsType) => {
   return (
     <>
       <StyledWidgetTrashCan ref={drop} isActive={isActive}>
-        <BsTrash />
+        <StyledWidgetTrashCanContent isActive={isActive}>
+          <BsTrash />
+        </StyledWidgetTrashCanContent>
       </StyledWidgetTrashCan>
     </>
   );
