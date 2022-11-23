@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const MiddleBucket = styled.div`
-  ${tw`flex flex-col w-3/5 pr-4`}
+  ${tw`flex flex-col w-full pr-4 justify-end`}
+  max-width: 500px;
 `;
 
 export const StyledBucketHeader = styled.div`
-  ${tw`flex justify-between items-end p-2`}
-  max-width: 540px;
+  ${tw`flex justify-between w-full items-end p-2`}
 `;
 
 export const StyledBucketBody = styled.div`

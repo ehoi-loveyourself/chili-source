@@ -21,7 +21,7 @@ export const StyledIssue = styled.div<styledType>`
 `;
 
 export const StyledIssueTop = styled.div<styledIssueType>`
-  ${tw`flex justify-between items-center text-white px-4 py-2 rounded-t-2xl`};
+  ${tw`flex justify-between items-center  px-4 py-2 rounded-t-2xl`};
   ${({ issueType }) => `background-color: ${theme.issue[issueType.toLowerCase()]}`};
   height: 50%};
 `;
@@ -31,11 +31,11 @@ export const StyledIssueBottom = styled.div`
 `;
 
 export const StyledIssueTopRight = styled.div`
-  ${tw`flex items-center px-2`}
+  ${tw`flex items-center px-2 cursor-pointer`}
 `;
 
 export const StyledIssueBottomElement = styled.div`
-  ${tw`flex justify-end items-center`};
+  ${tw`flex justify-end items-center gap-1`};
 `;
 
 StyledIssue.defaultProps = {
@@ -44,3 +44,7 @@ StyledIssue.defaultProps = {
   marginX: '5px',
   marginY: '5px',
 };
+
+export const StyledFlex = styled.div`
+  ${tw`flex justify-between`}
+`;
