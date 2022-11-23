@@ -55,6 +55,16 @@ interface requestType {
   summary: string;
 }
 
+/**
+ * @description
+ * 미들버킷 페이지의 미들버킷 기능.
+ * 미들버킷 내에 저장된 이슈를 지라로 전송할 수 있다.
+ *
+ * @param {any} props 부모 컴포넌트로부터 받아오는 props(issue state, 이슈템플릿에서의 insert toggle state, setState)
+ *
+ * @author dbcs
+ */
+
 const index = (props: any) => {
   const [issueId, setIssueId] = useState(0);
 

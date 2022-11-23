@@ -4,6 +4,12 @@ import { StyledPage, StyledHeader, StyledBody } from './style';
 // Components
 import HeaderInitNav from 'components/organisms/common/HeaderInitNav';
 
+/**
+ * @description
+ * 404 에러 발생 시 띄우는 페이지
+ *
+ * @author inte
+ */
 const ErrorPage = () => {
   return (
     <StyledPage className="page">
