@@ -1,5 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+// REACT LIBRARY
+import { useState, useEffect, useRef, MouseEvent } from 'react';
 import { useParams } from 'react-router-dom';
+
+// STYLE
 import {
   StyledIssueTemplate,
   StyledIssueTemplateHeader,
@@ -16,7 +19,22 @@ import {
   StyledBar,
   StyledText,
 } from './style';
-import { templateType } from 'components/pages/IssuesPage';
+
+// HOOKS
+import { useGetProject } from 'hooks/project';
+import { useGetUserInfoHandler } from 'hooks/user';
+import {
+  useDeleteIssueTemplate,
+  useGetIssueTemplateList,
+  useGetSprintList,
+  useGetEpicList,
+  usePostCreateIssueTemplate,
+  usePutEditIssueTemplate,
+} from 'hooks/issue';
+
+// import { templateType } from 'components/pages/IssuesPage';
+
+import Notification from 'components/atoms/Notification';
 import Issue from 'components/molecules/Issue';
 import Circle from 'components/atoms/Circle';
 import Text from 'components/atoms/Text';
@@ -26,65 +44,42 @@ import InputBox from 'components/molecules/InputBox';
 import TextAreaBox from 'components/molecules/TextAreaBox';
 import { theme } from 'styles/theme';
 import { HiPlus } from 'react-icons/hi';
-import issueAxios from 'api/rest/issue';
-import { useGetProject } from 'hooks/project';
-import { useGetUserInfoHandler } from 'hooks/user';
+
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
+
+interface templateType {
+  issueTemplateId: number;
+  projectId: number;
+  issueType: string;
+  summary: string;
+  description: string;
+  assignee: string;
+  priority: string;
+  epicLink: string;
+  sprint: number;
+  storyPoints: number;
+  userImage: string;
+}
+
 const index = (props: any) => {
-  interface sprintType {
-    goal: string;
-    id: number;
-    name: string;
-    originBoardId: number;
-    state: string;
-  }
   const { projectId } = useParams();
   const pjtId = Number(projectId);
+
+  // react-query
   const getProject = useGetProject(pjtId).data;
   const getUser = useGetUserInfoHandler();
-  const getEpicList = issueAxios.getEpicList();
-  const [epicList, setEpicList] = useState<string[]>();
-  const [keyList, setKeyList] = useState<string[]>();
-  const eList: string[] = [];
-  const kList: string[] = [];
-  const pushEpicList = async () => {
-    for (let i = 0; i < (await getEpicList).issues.length; i++) {
-      eList.push((await getEpicList).issues[i].fields.summary);
-      kList.push((await getEpicList).issues[i].key);
-    }
-    console.log(await getEpicList);
-    setEpicList(eList);
-    setKeyList(kList);
-  };
+  const getEpicList = useGetEpicList(pjtId);
+  const deleteIssueTemplate = useDeleteIssueTemplate();
+  const getIssueTemplateList = useGetIssueTemplateList(pjtId);
+  const getSprintList = useGetSprintList(pjtId);
+  const postCreateIssueTemplate = usePostCreateIssueTemplate();
+  const putEditIssueTemplate = usePutEditIssueTemplate();
+
   const myImg = getUser.data ? getUser.data.image : '';
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editNo, setEditNo] = useState(0);
-  const [issues, setIssues] = useState<templateType[]>([]);
-
-  const getIssueTemplateList = issueAxios.getIssueTemplateList(pjtId);
-  const iList: templateType[] = [];
-  const pushIssueTemplateList = async () => {
-    for (let i = 0; i < (await getIssueTemplateList).length; i++) {
-      iList.push((await getIssueTemplateList)[i]);
-    }
-    setIssues(iList);
-  };
-  const getSprintList = issueAxios.getSprintList(pjtId);
   const [sprintId, setSprintId] = useState<number>(-1);
-  const [sprintList, setSprintList] = useState<sprintType[]>([]);
-  const pushSprintList = async () => {
-    const sList: sprintType[] = [];
-    for (let i = 0; i < (await getSprintList).values.length; i++) {
-      sList.push((await getSprintList).values[i]);
-    }
-    setSprintList(sList);
-  };
-  useEffect(() => {
-    pushEpicList();
-    pushIssueTemplateList();
-    pushSprintList();
-  }, []);
 
   const issue = {
     issueTemplateId: props.issue.issueTemplateId,
@@ -102,12 +97,10 @@ const index = (props: any) => {
   };
 
   const setInfoHandler = (issue: templateType) => {
-    console.log(issue);
     props.setIssue(issue);
   };
   const deleteHandler = (issueTemplateId: number) => {
-    issueAxios.deleteIssueTemplate(issueTemplateId);
-    setIssues(issues.filter((issue: templateType) => issue.issueTemplateId !== issueTemplateId));
+    deleteIssueTemplate.mutateAsync(issueTemplateId).then(() => getIssueTemplateList.refetch());
   };
   const editEnableHandler = (issueTemplateId: number) => {
     setIsEdit(true);
@@ -119,27 +112,30 @@ const index = (props: any) => {
     setIsEdit(false);
   };
 
-  const IssueList = issues.map((issue: templateType) => (
-    <Issue
-      width={'380px'}
-      marginX={'5px'}
-      marginY={`5px`}
-      issueTemplateId={issue.issueTemplateId}
-      projectId={pjtId}
-      issueType={issue.issueType}
-      summary={issue.summary}
-      description={issue.description}
-      reporter={getUser.data ? getUser.data.name : ''}
-      assignee={getUser.data ? getUser.data.name : ''}
-      priority={issue.priority}
-      epicLink={issue.epicLink}
-      storyPoints={issue.storyPoints}
-      userImage={myImg}
-      clickHandler={setInfoHandler}
-      deleteHandler={deleteHandler}
-      editEnableHandler={editEnableHandler}
-    />
-  ));
+  const IssueTemplateList =
+    getIssueTemplateList.data &&
+    getIssueTemplateList.data.map((issue: templateType) => (
+      <Issue
+        width={'380px'}
+        marginX={'5px'}
+        marginY={`5px`}
+        issueTemplateId={issue.issueTemplateId}
+        projectId={pjtId}
+        issueType={issue.issueType}
+        summary={issue.summary}
+        description={issue.description}
+        reporter={getUser.data ? getUser.data.name : ''}
+        assignee={getUser.data ? getUser.data.name : ''}
+        priority={issue.priority}
+        epicLink={issue.epicLink}
+        storyPoints={issue.storyPoints}
+        // userImage={myImg}
+        assigneeName={issue.assignee}
+        clickHandler={setInfoHandler}
+        deleteHandler={deleteHandler}
+        editEnableHandler={editEnableHandler}
+      />
+    ));
 
   useEffect(() => {
     setType(issue.issueType);
@@ -174,6 +170,7 @@ const index = (props: any) => {
   const storyPointsRef = useRef<HTMLInputElement>(null);
 
   const [templateId, setTemplateId] = useState<number>(0);
+
   const addTemplateHandler = () => {
     issue.issueTemplateId = templateId;
     issue.projectId = projectId;
@@ -189,23 +186,27 @@ const index = (props: any) => {
     storyPointsRef.current ? (storyPointsRef.current.value = '0') : '';
 
     setTemplateId(templateId + 1);
-    issues.push(issue);
-    setIssues(issues);
+    // issues.push(issue);
+    // setIssues(issues);
     setIsAdd(false);
-    issueAxios.postCreateIssueTemplate(
-      issue.projectId,
-      issue.issueType,
-      issue.summary,
-      issue.description,
-      issue.assignee,
-      issue.priority,
-      issue.epicLink,
-      issue.sprint,
-      issue.storyPoints,
-    );
+    postCreateIssueTemplate
+      .mutateAsync({
+        projectId: issue.projectId,
+        issueType: issue.issueType,
+        summary: issue.summary,
+        description: issue.description,
+        assignee: issue.assignee,
+        priority: issue.priority,
+        epicLink: issue.epicLink,
+        sprint: issue.sprint,
+        storyPoints: issue.storyPoints,
+      })
+      .then(() => getIssueTemplateList.refetch());
   };
 
   const editTemplateHandler = () => {
+    const issues = getIssueTemplateList.data ? [...getIssueTemplateList.data] : [];
+
     issues.forEach(issue => {
       if (issue.issueTemplateId === editNo) {
         issue.issueType = type;
@@ -214,17 +215,21 @@ const index = (props: any) => {
         issue.priority = priority;
         issue.epicLink = epicLink;
         storyPointsRef.current ? (issue.storyPoints = Number(storyPointsRef.current.value)) : '';
+        putEditIssueTemplate
+          .mutateAsync({
+            projectId: issue.projectId,
+            issueType: issue.issueType,
+            summary: issue.summary,
+            description: issue.description,
+            priority: issue.priority,
+            epicLink: issue.epicLink,
+            storyPoints: issue.storyPoints,
+            issueTemplateId: issue.issueTemplateId,
+          })
+          .then(() => {
+            getIssueTemplateList.refetch();
+          });
       }
-      issueAxios.putEditIssueTemplate(
-        issue.projectId,
-        issue.issueType,
-        issue.summary,
-        issue.description,
-        issue.priority,
-        issue.epicLink,
-        issue.storyPoints,
-        issue.issueTemplateId,
-      );
     });
     setIsEdit(false);
   };
@@ -245,199 +250,224 @@ const index = (props: any) => {
     props.setIsInsert(true);
   };
   return (
-    <StyledIssueBundle>
-      <StyledIssueTemplate>
-        <StyledIssueTemplateHeader>
-          <StyledFlexCenter>
-            <Circle height="80px" backgroundColor={theme.color.primary} isInnerShadow={true}>
-              <Circle height={'70px'} isImage={true} url={getProject ? getProject.image : ''} />
-            </Circle>
-            <StyledBar className="hover-bg"></StyledBar>
-            <StyledHeight>
-              <StyledH2 className="hover-text">
-                {getProject && getProject.name ? getProject.name : '[빈 프로젝트 명]'}
-              </StyledH2>
-              <StyledDescription className="hover-text">
-                {getProject && getProject.description
-                  ? getProject.description
-                  : '[빈 프로젝트 설명]'}
-              </StyledDescription>
-              <StyledLinkageToken>
-                <p className="hover-text">
-                  {getProject && getProject.gitRepo && `gitRepository : ${getProject.gitRepo}`}
-                </p>
-                <p className="hover-text">
-                  {getProject &&
-                    getProject.jiraProject &&
-                    `jiraProject : ${getProject.jiraProject}`}
-                </p>
-              </StyledLinkageToken>
-            </StyledHeight>
-          </StyledFlexCenter>
-        </StyledIssueTemplateHeader>
-        <Sheet isShadow={true} width={'400px'}>
-          <StyledIssueTemplateBody>
-            <StyledText>
-              <Text
-                isFill={false}
-                message={'Issue Templates'}
-                fontSize={'1.5rem'}
-                fontWeight={'bold'}
+    <>
+      {deleteIssueTemplate.isSuccess && (
+        <Notification check={true} message="이슈 템플릿을 삭제하였습니다." width="300px" />
+      )}
+      {putEditIssueTemplate.isSuccess && (
+        <Notification
+          check={true}
+          message="이슈 템플릿을 성공적으로 수정하였습니다."
+          width="300px"
+        />
+      )}
+      {postCreateIssueTemplate.isSuccess && (
+        <Notification
+          check={true}
+          message="이슈템플릿을 성공적으로 생성하였습니다."
+          width="300px"
+        />
+      )}
+      <StyledIssueBundle>
+        <StyledIssueTemplate>
+          <StyledIssueTemplateHeader>
+            <StyledFlexCenter>
+              <Circle height="80px" backgroundColor={theme.color.primary} isInnerShadow={true}>
+                <Circle height={'70px'} isImage={true} url={getProject ? getProject.image : ''} />
+              </Circle>
+              <StyledBar className="hover-bg"></StyledBar>
+              <StyledHeight>
+                <StyledH2 className="hover-text">
+                  {getProject && getProject.name ? getProject.name : '[빈 프로젝트 명]'}
+                </StyledH2>
+                <StyledDescription className="hover-text">
+                  {getProject && getProject.description
+                    ? getProject.description
+                    : '[빈 프로젝트 설명]'}
+                </StyledDescription>
+                <StyledLinkageToken>
+                  <p className="hover-text">
+                    {getProject && getProject.gitRepo && `gitRepository : ${getProject.gitRepo}`}
+                  </p>
+                  <p className="hover-text">
+                    {getProject &&
+                      getProject.jiraProject &&
+                      `jiraProject : ${getProject.jiraProject}`}
+                  </p>
+                </StyledLinkageToken>
+              </StyledHeight>
+            </StyledFlexCenter>
+          </StyledIssueTemplateHeader>
+          <Sheet isShadow={true} width={'400px'}>
+            <StyledIssueTemplateBody>
+              <StyledText>
+                <Text
+                  isFill={false}
+                  message={'Issue Templates'}
+                  fontSize={'1.5rem'}
+                  fontWeight={'bold'}
+                />
+                <Button
+                  width={'40px'}
+                  height={'40px'}
+                  margin={'0 0 0 10px'}
+                  borderColor={'#d9d9d9'}
+                  clickHandler={addEnableHandler}
+                  isHover
+                >
+                  <HiPlus size={'1.5rem'} />
+                </Button>
+              </StyledText>
+              <Sheet borderColor={'transparent'} flex={'column'} isOverflowYScroll>
+                <StyledIssueTemplateBody>{IssueTemplateList}</StyledIssueTemplateBody>
+              </Sheet>
+            </StyledIssueTemplateBody>
+          </Sheet>
+        </StyledIssueTemplate>
+        <StyledIssueInfo>
+          <StyledIssueInfoHeader>
+            <Button
+              borderColor={theme.issue.bug}
+              isDisabled={!isAdd}
+              isHover
+              margin={'0 0 0 10px'}
+              clickHandler={addTemplateHandler}
+            >
+              Add Template
+            </Button>
+            <Button
+              borderColor={theme.issue.story}
+              isDisabled={!isEdit}
+              isHover
+              margin={'0 0 0 10px'}
+              clickHandler={editTemplateHandler}
+            >
+              Edit Template
+            </Button>
+            <Button
+              borderColor={theme.issue.task}
+              isHover
+              margin={'0 0 0 10px'}
+              clickHandler={insertIssueHandler}
+            >
+              Insert Bucket
+            </Button>
+          </StyledIssueInfoHeader>
+          <Sheet isShadow={true} flex={'column'} height={'90%'} isOverflowYScroll={true}>
+            <StyledIssueInfoBody>
+              <InputBox
+                isRow={false}
+                labelName={'프로젝트'}
+                inputValue={getProject ? getProject.name : ''}
+                ref={projectRef}
+                labelMarginBottom={'10px'}
+                disabled
               />
-              <Button
-                width={'40px'}
-                height={'40px'}
-                margin={'0 0 0 10px'}
-                borderColor={'#d9d9d9'}
-                clickHandler={addEnableHandler}
-                isHover
-              >
-                <HiPlus size={'1.5rem'} />
-              </Button>
-            </StyledText>
-            <Sheet borderColor={'transparent'} flex={'column'} isOverflowYScroll>
-              <StyledIssueTemplateBody>{IssueList}</StyledIssueTemplateBody>
-            </Sheet>
-          </StyledIssueTemplateBody>
-        </Sheet>
-      </StyledIssueTemplate>
-      <StyledIssueInfo>
-        <StyledIssueInfoHeader>
-          <Button
-            borderColor={theme.issue.bug}
-            isDisabled={!isAdd}
-            isHover
-            margin={'0 0 0 10px'}
-            clickHandler={addTemplateHandler}
-          >
-            Add Template
-          </Button>
-          <Button
-            borderColor={theme.issue.story}
-            isDisabled={!isEdit}
-            isHover
-            margin={'0 0 0 10px'}
-            clickHandler={editTemplateHandler}
-          >
-            Edit Template
-          </Button>
-          <Button
-            borderColor={theme.issue.task}
-            isHover
-            margin={'0 0 0 10px'}
-            clickHandler={insertIssueHandler}
-          >
-            Insert to Bucket
-          </Button>
-        </StyledIssueInfoHeader>
-        <Sheet isShadow={true} flex={'column'} height={'90%'} isOverflowYScroll={true}>
-          <StyledIssueInfoBody>
-            <InputBox
-              isRow={false}
-              labelName={'프로젝트'}
-              inputValue={getProject ? getProject.name : ''}
-              ref={projectRef}
-              disabled
-            />
-            <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
-              <InputLabel id="demo-simple-select-label">이슈 유형</InputLabel>
-              <Select
-                labelId="inputType-Label"
-                id="inputType"
-                value={type}
-                label="이슈 유형"
-                onChange={e => {
-                  changeHandler(e, 'type');
-                }}
-              >
-                <MenuItem value={'Story'}>스토리</MenuItem>
-                <MenuItem value={'Task'}>태스크</MenuItem>
-                <MenuItem value={'Bug'}>버그</MenuItem>
-              </Select>
-            </FormControl>
-            <InputBox
-              isRow={false}
-              labelName={'요약'}
-              inputValue={props.issue.summary}
-              ref={summaryRef}
-            />
-            <TextAreaBox
-              isRow={false}
-              labelName={'설명'}
-              textAreaValue={props.issue.description}
-              ref={descriptionRef}
-              nonResize
-            />
-            <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
-              <InputLabel id="demo-simple-select-label">우선순위</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={priority}
-                label="우선순위"
-                onChange={e => {
-                  changeHandler(e, 'priority');
-                }}
-              >
-                {priorityList.map((p, idx) => {
-                  return (
-                    <MenuItem key={idx} value={p}>
-                      {p}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
+              <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
+                <InputLabel id="demo-simple-select-label">이슈 유형</InputLabel>
+                <Select
+                  labelId="inputType-Label"
+                  id="inputType"
+                  value={type}
+                  label="이슈 유형"
+                  onChange={e => {
+                    changeHandler(e, 'type');
+                  }}
+                >
+                  <MenuItem value={'Story'}>스토리</MenuItem>
+                  <MenuItem value={'Task'}>태스크</MenuItem>
+                  <MenuItem value={'Bug'}>버그</MenuItem>
+                </Select>
+              </FormControl>
+              <InputBox
+                isRow={false}
+                labelName={'요약'}
+                inputValue={props.issue.summary}
+                ref={summaryRef}
+                labelMarginBottom={'10px'}
+              />
+              <TextAreaBox
+                isRow={false}
+                labelName={'설명'}
+                textAreaValue={props.issue.description}
+                ref={descriptionRef}
+                labelMarginBottom={'10px'}
+                nonResize
+              />
+              <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
+                <InputLabel id="demo-simple-select-label">우선순위</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={priority}
+                  label="우선순위"
+                  onChange={e => {
+                    changeHandler(e, 'priority');
+                  }}
+                >
+                  {priorityList.map((p, idx) => {
+                    return (
+                      <MenuItem key={idx} value={p}>
+                        {p}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
 
-            <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
-              <InputLabel id="demo-simple-select-label">Epic Link</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={epicLink}
-                label="Epic Link"
-                onChange={e => {
-                  changeHandler(e, 'epicLink');
-                }}
-              >
-                {keyList?.map((k, idx) => {
-                  return (
-                    <MenuItem key={idx} value={k}>
-                      {epicList ? epicList[idx] : ''}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
-              <InputLabel id="demo-simple-select-label">스프린트</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="스프린트"
-                onChange={e => {
-                  changeHandler(e, 'sprint');
-                }}
-              >
-                {sprintList.map((s, idx) => {
-                  return (
-                    <MenuItem key={idx} value={s.id}>
-                      {s.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            <InputBox
-              isRow={false}
-              labelName={'Story Points'}
-              inputValue={props.issue.storyPoints + ''}
-              ref={storyPointsRef}
-            />
-          </StyledIssueInfoBody>
-        </Sheet>
-      </StyledIssueInfo>
-    </StyledIssueBundle>
+              <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
+                <InputLabel id="demo-simple-select-label">Epic Link</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={epicLink}
+                  label="Epic Link"
+                  onChange={e => {
+                    changeHandler(e, 'epicLink');
+                  }}
+                >
+                  {getEpicList.data &&
+                    getEpicList.data.issues.map((epic, idx) => {
+                      return (
+                        <MenuItem key={idx} value={epic.key}>
+                          {epic.fields.summary}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth style={{ margin: '5px 0 5px 0', padding: '0 5px 0 5px' }}>
+                <InputLabel id="demo-simple-select-label">스프린트</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="스프린트"
+                  onChange={e => {
+                    changeHandler(e, 'sprint');
+                  }}
+                >
+                  {getSprintList.data &&
+                    getSprintList.data.sprints.map((sprint, idx) => {
+                      return (
+                        <MenuItem key={idx} value={sprint.id}>
+                          {sprint.name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+              <InputBox
+                isRow={false}
+                labelName={'Story Points'}
+                inputValue={props.issue.storyPoints + ''}
+                ref={storyPointsRef}
+                labelMarginBottom={'10px'}
+              />
+            </StyledIssueInfoBody>
+          </Sheet>
+        </StyledIssueInfo>
+      </StyledIssueBundle>
+    </>
   );
 };
 
