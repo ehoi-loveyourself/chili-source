@@ -26,7 +26,7 @@ export const useGetWidgetCalendarData = () => {
 /**
  * @description
  * 캘린더 위젯 데이터를 set하는 쿼리 커스텀 훅
- * 
+ *
  * @author inte
  */
 export const useSetWidgetCalendarData = () => {
@@ -106,7 +106,7 @@ export const useGetWidgetGanttData = () => {
 /**
  * @description
  * Gantt 위젯 데이터를 set하는 쿼리 커스텀 훅
- * 
+ *
  * @author inte
  */
 export const useSetWidgetGanttData = () => {
