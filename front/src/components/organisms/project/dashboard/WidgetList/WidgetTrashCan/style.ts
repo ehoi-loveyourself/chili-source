@@ -8,9 +8,16 @@ export interface styledType {
 
 export const StyledWidgetTrashCan = styled.div<styledType>`
   ${tw`w-full flex justify-center items-center`}
-  opacity: ${({ isActive }) => (isActive ? '1' : '0')};
-  height: ${({ isActive }) => (isActive ? '12rem' : '1rem')};
-  background-color: ${({ isActive }) => (isActive ? 'red' : '')};
+  height: ${({ isActive }) => (isActive ? '12rem' : '72px')};
   transition: 200ms all;
 `;
-StyledWidgetTrashCan.defaultProps = {};
+
+export const StyledWidgetTrashCanContent = styled.div<styledType>`
+  ${tw`flex justify-center items-center`}
+  height: ${({ isActive }) => (isActive ? 'calc(100% - 16px)' : '40px')};
+  width: ${({ isActive }) => (isActive ? 'calc(100% - 16px)' : '210px')};
+  border: 1px solid black;
+  border-radius: 20px;
+  transition: 200ms all;
+  background-color: ${({ isActive }) => (isActive ? 'red' : '')};
+`;

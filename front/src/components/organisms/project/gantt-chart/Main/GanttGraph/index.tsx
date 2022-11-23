@@ -85,9 +85,6 @@ export const GanttGraph = () => {
   };
 
   const clickHandler = (task: Task) => {
-    task.start.setHours(task.start.getHours() + 9);
-    task.end.setHours(task.end.getHours() + 9);
-
     const params = {
       userId: task.displayOrder,
       id: Number(task.id),
