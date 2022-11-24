@@ -9,14 +9,6 @@ import { propsType } from '../../';
 import { StyledWidgetData, StyledWidgetDataLabel, StyledWidgetDataContent } from '../style';
 import { StyledCalendarData } from './style';
 
-/**
- *
- * @description
- * 캘린더 위젯 생성 후 대쉬보드에 나타나는 캘린더 위젯
- *
- * @author inte
- */
-
 export const CALENDAR = ({ url }: propsType) => {
   // Init
   const navigate = useNavigate();

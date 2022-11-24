@@ -4,14 +4,6 @@ import { propsType } from '../..';
 // Styles
 import { StyledWidgetData, StyledWidgetDataLabel, StyledWidgetDataContent } from '../style';
 
-/**
- *
- * @description
- * 웹엑스 위젯 생성 후 대쉬보드에 나타나는 웹엑스 위젯
- *
- * @author inte
- */
-
 export const WEBEX = ({ url, id }: propsType) => {
   // Methods
   const clickHandler = () => {

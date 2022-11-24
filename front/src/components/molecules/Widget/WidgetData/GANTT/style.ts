@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const StyledGanttData = styled.div`
-  ${tw`pb-8 h-full w-full flex flex-col items-center overflow-y-scroll`}
+  ${tw`mt-4 h-full w-full flex flex-col items-center overflow-y-scroll`}
 
   gap: 16px;
 

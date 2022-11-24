@@ -8,5 +8,6 @@ export const StyledIssuesPage = styled.div`
 export const StyledHeader = styled.div``;
 
 export const StyledBody = styled.div`
-  ${tw`flex w-full h-full justify-center`}
+  ${tw`flex`}
+  height: 88%;
 `;

@@ -23,12 +23,10 @@ interface propsType extends styledType {
  * @description
  * Select 재사용 컴포넌트
  *
- * @param {string?}   width                               - 컴포넌트 안에 쓰이는 내용
- * @param {string?}   fontSize                            - 폰트 크기 변경, default 시 0.85rem;
- * @param {ReactNode} children                            - 자식 컴포넌트를 감싸기 위한 props
- * @param {any?} text                                     - SelectBox의 text를 사용하기 위해 props로 받아오는 state
- * @param {any?} setText                                  - SelectBox의 text를 제어하기 위해 props로 받아오는 setState
- * @param {Dispatch<SetStateAction<string>>?} setState    - 원하는 state에 값을 set하기 위해 props로 받아오는 setState 함수
+ * @param {string?}   width     - 컴포넌트 안에 쓰이는 내용
+ * @param {string?}   fontSize  - 폰트 크기 변경, default 시 0.85rem;
+ * @param {ReactNode} children  - 자식 컴포넌트를 감싸기 위한 props
+ *
  * @author bell
  */
 

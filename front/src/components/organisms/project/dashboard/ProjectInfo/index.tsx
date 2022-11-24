@@ -93,8 +93,7 @@ const guideList: JSX.Element[] = [
 const idx = Math.floor(Math.random() * guideList.length);
 /**
  * @description
- * 프로젝트 대쉬보드
- * 프로젝트의 간략한 정보와 팀원, 랜덤한 위젯의 정보를 볼 수 있다.
+ * 만드는 중 입니다.
  *
  * @author inte
  */

@@ -28,13 +28,6 @@ export interface ganttType {
   id?: number;
 }
 
-/**
- * @description
- *
- *
- * @author inte
- */
-
 export const GanttList = () => {
   // Init
   const { projectId } = useParams();

@@ -1,4 +1,4 @@
-import { useEffect, useRef, forwardRef, ForwardedRef, ChangeEvent } from 'react';
+import { useEffect, useState, useRef, forwardRef, ForwardedRef, ChangeEvent } from 'react';
 
 import { SetterOrUpdater } from 'recoil';
 
@@ -29,10 +29,6 @@ interface propsType extends styledType {
  * @param {string?} type        - 인풋 타입
  * @param {string?} placeHolder - 플레이스홀더
  * @param {string?} defaultValue       - 초기에 들어가있을 값
- * @param {any?} text        - InputBox에서 내부값을 넘겨받기 위한 값
- * @param {any?} setText     - 값 변경 시 text값을 저장 후 InputBox로 넘겨주기 위한 setState
- * @param {string?} useSetRecoilState -
- * @param {string?} recoilParam -
  *
  * @author inte
  */

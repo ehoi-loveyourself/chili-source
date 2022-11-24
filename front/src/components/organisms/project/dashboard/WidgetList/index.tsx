@@ -31,14 +31,6 @@ export interface itemType {
   children: itemType[];
 }
 
-/**
- * @description
- * 대쉬보드 내 위젯 영역.
- * 위젯을 추가 또는 삭제할 수 있다.
- *
- * @author inte
- */
-
 export const WidgetList = ({}: propsType) => {
   // Init
   const { projectId } = useParams();

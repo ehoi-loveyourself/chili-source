@@ -15,25 +15,12 @@ interface propsType extends styledType {
  * @description
  * Tab 재사용 컴포넌트
  *
- * @example
- * <Tab
-      key={idx}
-      type={'project'}
-      isActivated={true}
-      title={'제목'}
-      toggleHandler={e => activateToggleHandler(e, id)}
-      closeHandler={() => closeTabHandler(id)}
-      xBtn={isActivated}
-    ></Tab>
- * 
  * @param {key}                       key               - map()용 key 값, props로 반영되진 않는다.
  * @param {type}                      type              - 해당 탭이 프로젝트인지, 위젯인지 확인하기 위한 값, 타입에 따라 css가 다르게 적용되는 부분이 있다.
  * @param {string}                    title             - 컴포넌트 안에 쓰이는 내용
- * @param {boolean}                   xBtn              - X버튼 생성 여부
- * @param {boolean}                   plus              - 탭 추가 버튼(+모양 탭) 여부
  * @param {MouseEventHandler<T>?}     toggleHandler     - 탭 활성화, 비활성화 이벤트 반영
  * @param {MouseEventHandler<T>?}     closeHandler      - 탭 삭제 이벤트 반영
- * @param {MouseEventHandler<T>?}     selectHandler     - 탭 클릭시, 새로운 프로젝트 혹은 위젯 생성 이벤트
+ * @param {MouseEventHandler<T>?}     selectHandler     - + 탭 클릭시, 새로운 프로젝트 혹은 위젯 생성 이벤트
  * @param {boolean}                   isActivated       - 현재 Tab이 켜져있는지 꺼져있는지를 확인하는 prop
  *
  * @author bell

@@ -23,12 +23,6 @@ export const useGetWidgetCalendarData = () => {
   );
 };
 
-/**
- * @description
- * 캘린더 위젯 데이터를 set하는 쿼리 커스텀 훅
- *
- * @author inte
- */
 export const useSetWidgetCalendarData = () => {
   // Init
   const queryClient = useQueryClient();
@@ -103,12 +97,6 @@ export const useGetWidgetGanttData = () => {
   );
 };
 
-/**
- * @description
- * Gantt 위젯 데이터를 set하는 쿼리 커스텀 훅
- *
- * @author inte
- */
 export const useSetWidgetGanttData = () => {
   // Init
   const queryClient = useQueryClient();
@@ -141,12 +129,6 @@ export const useGetWidgetJiraData = () => {
   );
 };
 
-/**
- * @description
- * JIRA 위젯 데이터를 set하는 쿼리 커스텀 훅 ==========
- *
- * @author inte
- */
 export const useSetWidgetJiraData = () => {
   // Init
   const queryClient = useQueryClient();

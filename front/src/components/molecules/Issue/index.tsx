@@ -1,7 +1,4 @@
-// REACT LIBRARY
-import { MouseEvent } from 'react';
-
-// STYLE
+import { useEffect, useState } from 'react';
 import {
   StyledIssue,
   StyledIssueTop,
@@ -9,14 +6,10 @@ import {
   StyledIssueBottom,
   StyledIssueBottomElement,
   styledType,
-  StyledFlex,
 } from './style';
+import Text from '../../atoms/Text';
+import Circle from '../../atoms/Circle';
 
-// COMPONENT
-import Text from 'components/atoms/Text';
-import Circle from 'components/atoms/Circle';
-
-// ICON
 import { ImBin } from 'react-icons/im';
 import {
   FaAngleDoubleUp,
@@ -25,8 +18,7 @@ import {
   FaAngleDown,
   FaAngleDoubleDown,
 } from 'react-icons/fa';
-import { useGetUserInfoHandler } from 'hooks/user';
-
+import issueAxios from 'api/rest/issue';
 interface propsType extends styledType {
   issueTemplateId: number;
   projectId?: number;
@@ -41,7 +33,6 @@ interface propsType extends styledType {
   clickHandler?: any;
   deleteHandler?: any;
   editEnableHandler?: any;
-  assigneeName?: string;
 }
 
 /**
@@ -67,8 +58,6 @@ interface propsType extends styledType {
  * @param {string?} epicLink                                    - 에픽 링크
  * @param {number?} storyPoints                                 - 스토리 포인트
  * @param {MouseEventHandler<HTMLDivElement>?} clickHandler     - 클릭 이벤트
- * @param {any?} deleteHandler                                  - 삭제 이벤트
- * @param {any?} editEnableHandler                              - 템플릿 수정 이벤트
  *
  * @author dbcs
  */
@@ -89,7 +78,6 @@ const index = ({
   clickHandler,
   deleteHandler,
   editEnableHandler,
-  assigneeName,
   userImage,
 }: propsType) => {
   let iType: string;
@@ -133,51 +121,35 @@ const index = ({
     epicLink: epicLink,
     storyPoints: storyPoints,
   };
-
-  const getUserInfo = useGetUserInfoHandler();
-
-  const getIssueTemplateHandler = (e: MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).innerText) {
-      clickHandler(issueData);
-    }
-  };
   return (
     <>
       <StyledIssue
         width={width}
         height={height}
         issueType={issueType}
-        onClick={e => {
-          getIssueTemplateHandler(e);
+        onClick={() => {
+          clickHandler(issueData);
           editEnableHandler(issueTemplateId);
         }}
       >
         <StyledIssueTop issueType={issueType}>
           <Text isFill={false} message={iType} color={'white'}></Text>
-          <StyledFlex>
-            {assigneeName && (
-              <Text isFill={true} message={assigneeName} color={'black'} width={24}></Text>
-            )}
-            {assigneeName && getUserInfo.data && getUserInfo.data.name === assigneeName && (
-              <StyledIssueTopRight>
-                <ImBin
-                  color="#ffffff"
-                  onClick={() => {
-                    issueData.projectId = 0;
-                    issueData.issueType = '';
-                    issueData.summary = '';
-                    issueData.description = '';
-                    issueData.reporter = '';
-                    issueData.assignee = '';
-                    issueData.priority = '';
-                    issueData.epicLink = '';
-                    issueData.storyPoints = 0;
-                    deleteHandler(issueTemplateId);
-                  }}
-                />
-              </StyledIssueTopRight>
-            )}
-          </StyledFlex>
+          <StyledIssueTopRight>
+            <ImBin
+              onClick={() => {
+                issueData.projectId = 0;
+                issueData.issueType = '';
+                issueData.summary = '';
+                issueData.description = '';
+                issueData.reporter = '';
+                issueData.assignee = '';
+                issueData.priority = '';
+                issueData.epicLink = '';
+                issueData.storyPoints = 0;
+                deleteHandler(issueTemplateId);
+              }}
+            />
+          </StyledIssueTopRight>
         </StyledIssueTop>
         <StyledIssueBottom>
           <Text isFill={false} message={issueSummary}></Text>
@@ -190,7 +162,7 @@ const index = ({
               {priority === 'Low' && <FaAngleDown />}
               {priority == 'Lowest' && <FaAngleDoubleDown />}
             </Circle>
-            {userImage && <Circle height={'24px'} isImage={true} url={userImage}></Circle>}
+            <Circle height={'24px'} isImage={true} url={userImage}></Circle>
             <Text isFill={true} message={issueStoryPoints + ''} width={24}></Text>
           </StyledIssueBottomElement>
         </StyledIssueBottom>

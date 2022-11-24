@@ -39,12 +39,6 @@ interface propsType {
  * @description
  * 프로젝트 생성 페이지에서 프로젝트를 생성하는 영역
  *
- * @example
- * <ProjectCreate setIsCreated={setIsCreated} setProjectId={setProjectId} />
- *
- * @param {Dispatch<SetStateAction<number | undefined>>}  setProjectId  프로젝트 생성시 프로젝트 ID 상태 저장하는 setState
- * @param {Dispatch<SetStateAction<boolean>>}             setIsCreated  프로젝트 생성시 프로젝트 생성여부 상태 저장하는 setState
- *
  * @author bell
  */
 const index = ({ setProjectId, setIsCreated }: propsType) => {

@@ -15,17 +15,6 @@ interface propsType {
   url?: string | null;
 }
 
-/**
- * @description
- *
- * @param {number?}         id    위젯 ID
- * @param {string?}         type  위젯의 크기 타입(1x1, 2x2, 4x2..)
- * @param {string?}         path  (column, row) 위치 정보
- * @param {string? | null}  url   위젯 url
- *
- * @author inte
- */
-
 export const WidgetListItem = ({ id, type, path, url }: propsType) => {
   const item = useRef(null);
 

@@ -6,6 +6,9 @@ interface propsType extends styledType {
 }
 
 /**
+ * @description
+ * 만드는 중 입니다.
+ *
  * @author inte
  */
 export const GanttBar = ({}: propsType) => {

@@ -17,14 +17,6 @@ interface propsType extends styledType {
   path?: string;
 }
 
-/**
- *
- * @description
- * 지라 위젯 생성 후 대쉬보드에 나타나는 지라 위젯
- *
- * @author inte
- */
-
 export const JIRA = ({ url }: propsType) => {
   // Init
   const navigate = useNavigate();

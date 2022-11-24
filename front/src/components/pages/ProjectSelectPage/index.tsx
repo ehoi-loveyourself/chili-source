@@ -2,12 +2,6 @@
 import HeaderInitNav from 'components/organisms/common/HeaderInitNav';
 import ProjectSelectPage from 'components/organisms/projects/Main';
 
-/**
- * @description
- * 프로젝트 선택 페이지
- *
- * @author bell
- */
 const index = () => {
   if (localStorage.getItem('project-tab-list')) {
     const projectTabList = JSON.parse(localStorage.getItem('project-tab-list') as string);

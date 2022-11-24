@@ -16,12 +16,7 @@ import { theme } from 'styles/theme';
 
 // Components
 import HeaderInit from 'components/organisms/common/HeaderInitNav';
-/**
- * @description
- * 접속하고 맨 처음 뜨는 랜딩 페이지
- *
- * @author inte
- */
+
 const LandingPage = () => {
   // Init
   const navigate = useNavigate();

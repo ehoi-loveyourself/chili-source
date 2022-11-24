@@ -24,17 +24,14 @@ interface propsType extends styledType {
  * // 보더 색 변경
  * <Sheet isShadow={false} height="100px" borderColor="red"></Sheet>
  *
- * @param {string?}  height             - 높이문자열
- * @param {string?}  width              - 넓이문자열
- * @param {boolean?} isShadow           - 그림자 유무
- * @param {string?}  borderColor        - #테두리색 핵사코드
- * @param {string?}  backgroundColor    - #배경색 핵사코드
- * @param {string?}  flex               - flex-direction (row, column)
- * @param {string?}  maxWidth           - max-width 설정
- * @param {string?}  minHeight          - min-height 설정
- * @param {boolean?} isOverflowXScroll  - X축 방향 스크롤 여부
- * @param {boolean?} isOverflowYScroll  - Y축 방향 스크롤 여부
- * @param {boolean?} isHover            - Hover 여부
+ * @param {string?}  height          - 높이문자열
+ * @param {string?}  width           - 넓이문자열
+ * @param {boolean?} isShadow        - 그림자 유무
+ * @param {string?}  borderColor     - #테두리색 핵사코드
+ * @param {string?}  backgroundColor - #배경색 핵사코드
+ * @param {string?}  flex            - flex-direction (row, column)
+ * @param {string?}  maxWidth        - max-width 설정
+ * @param {string?}  minHeight       - min-height 설정
  *
  * @author inte
  */

@@ -16,12 +16,6 @@ interface propsType extends styledType {
  * @description
  * Text 혹은 Fill을 재사용하기 위한 목적으로 만들어진 컴포넌트
  *
- * @example
- * 바탕이 green으로 칠해진 Text
- * <Text isFill={true} message={'들어갈 내용'} backgroundColor={'green'} width={24}></Text>
- * 바탕이 없고 굵은 폰트 Text
- * <Text isFill={false} message={'들어갈 내용'} fontWeight={'bold'}></Text>
- *
  * @param {string}                     message          - 컴포넌트 안에 쓰이는 내용
  * @param {string?}                    fontFamily?      - 폰트 변경, default시 pretendard
  * @param {boolean}                    isFill           - Fill인지, Text 인지 선정
@@ -29,9 +23,9 @@ interface propsType extends styledType {
  * @param {string?}                    color            - color 변경, default시 #000000
  * @param {string?}                    fontSize         - 폰트 크기 변경, default 시 Text - 1rem, Fill - 0.85rem
  * @param {string?}                    backgroundColor  - 배경색 변경,  default 시 Text - 반영안됨,  Fill - #d6d6d6
- * @param {number}                     width            - Fill만 적용, Fill의 전체적인 크기를 자동 설정 (border-radius, padding)
+ * @param {number}                     width            - Fill만 적용, Fill의 전체적인 크기를 자동 설정 (border-radius, padding)\
+ * @param {MouseEventHandler<T>?}      clickEHandler    - 클릭이벤트 반영
  * @param {string}                     display          - display 설정 변경
- * @param {MouseEventHandler<T>?}      clickHandler     - 클릭이벤트 반영
  * @param {boolean}                    isHover          - hover 기능 쓸지 안쓸지 default시 false
  *
  * @author bell

@@ -17,13 +17,6 @@ const SIDEINDEX = [
   { name: 'FAQ', pathId: 4 },
 ];
 
-/**
- * @description
- * 칠리소스 오픈소스 가이드 사이드
- *
- * @author bell
- */
-
 const index = () => {
   const navigate = useNavigate();
   const location = useLocation();

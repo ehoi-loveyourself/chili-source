@@ -17,8 +17,7 @@ export const StyledIssueTemplateBody = styled.div`
 `;
 
 export const StyledIssueInfo = styled.div`
-  ${tw`flex flex-col px-6 justify-end`}
-  max-width: 500px;
+  ${tw`flex flex-col px-6`}
 `;
 
 export const StyledIssueInfoHeader = styled.div`
