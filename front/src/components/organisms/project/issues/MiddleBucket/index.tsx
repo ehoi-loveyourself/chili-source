@@ -1,6 +1,8 @@
+// REACT LIBRARY
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-// import Modal from 'react-modal';
+
+// STYLE
 import {
   MiddleBucket,
   StyledBucketHeader,
@@ -8,43 +10,71 @@ import {
   StyledIssue,
   StyledBetween,
   StyledCenter,
-  StyledEnd,
 } from './style';
+
+// HOOKS
+// import issueAxios from 'api/rest/issue';
+import { useGetUserInfoHandler } from 'hooks/user';
+
+// MOLECULES
 import IssueBar from 'components/molecules/IssueBar';
 import InputBox from 'components/molecules/InputBox';
+
+// ATOMS
 import Circle from 'components/atoms/Circle';
 import Sheet from 'components/atoms/Sheet';
 import Button from 'components/atoms/Button';
 import Text from 'components/atoms/Text';
-import issueAxios from 'api/rest/issue';
+
+// ICONS
 import { ImBin } from 'react-icons/im';
-import { RiSave3Fill } from 'react-icons/ri';
 import { HiPlus, HiPencil } from 'react-icons/hi';
 import { theme } from 'styles/theme';
+import { FaJira } from 'react-icons/fa';
 import { Select, FormControl, InputLabel, MenuItem, Modal, Box, Typography } from '@mui/material';
-import { useGetUserInfoHandler } from 'hooks/user';
-import { BsCardChecklist } from 'react-icons/bs';
+import {
+  useDeleteIssueInMiddeBucket,
+  useDeleteMiddleBucket,
+  useGetIssueListInMiddleBucket,
+  useGetMiddeBucketList,
+  usePostAddIssue,
+  usePostCreateMiddleBucket,
+  usePostSendToJira,
+  usePutEditMiddleBucket,
+} from 'hooks/issue';
+
+interface requestType {
+  middleBucketId: number;
+  assignee: string;
+  description: string;
+  epicLink: string;
+  issueType: string;
+  priority: string;
+  sprint: number;
+  storyPoints: number;
+  summary: string;
+}
+
+/**
+ * @description
+ * 미들버킷 페이지의 미들버킷 기능.
+ * 미들버킷 내에 저장된 이슈를 지라로 전송할 수 있다.
+ *
+ * @param {any} props 부모 컴포넌트로부터 받아오는 props(issue state, 이슈템플릿에서의 insert toggle state, setState)
+ *
+ * @author dbcs
+ */
+
 const index = (props: any) => {
   const [issueId, setIssueId] = useState(0);
-  interface middleBucketType {
-    middleBucketId: number;
-    name: string;
-  }
-  interface requestType {
-    assignee: string;
-    description: string;
-    epicLink: string;
-    issueType: string;
-    priority: string;
-    sprint: number;
-    storyPoints: number;
-    summary: string;
-  }
+
   const { projectId } = useParams();
   const pjtId = Number(projectId);
+
   interface bucketType extends requestType {
     issueId: number;
   }
+
   const issue = {
     issueId: issueId,
     issueType: props.issue.issueType,
@@ -57,36 +87,27 @@ const index = (props: any) => {
     storyPoints: props.issue.storyPoints,
     userImage: props.issue.userImage,
   };
-  const getUser = useGetUserInfoHandler();
-  const myImg = getUser.data ? getUser.data.image : '';
-  const getMiddleBucketList = issueAxios.getMiddleBucketList(pjtId);
 
   const [bucketId, setBucketId] = useState<number>(-1);
-  const [middleBucketList, setMiddleBucketList] = useState<middleBucketType[]>([]);
-  const pushMiddleBucketList = async () => {
-    const mList: middleBucketType[] = [];
-    for (let i = 0; i < (await getMiddleBucketList).length; i++) {
-      mList.push((await getMiddleBucketList)[i]);
-    }
-    setMiddleBucketList(mList);
-  };
-  useEffect(() => {
-    pushMiddleBucketList();
-  }, []);
 
-  const [bucketList, setBucketList] = useState<bucketType[]>([]);
-  const showMiddleBucket = async () => {
-    const bList: bucketType[] = [];
-    const bucket = issueAxios.getIssueList(bucketId);
-    for (let i = 0; i < (await bucket).issueList.length; i++) {
-      bList.push((await bucket).issueList[i]);
-    }
-    setBucketList(bList);
-  };
+  // react-query
+  const getUser = useGetUserInfoHandler();
+  const getMiddleBucketList = useGetMiddeBucketList(pjtId);
+  const getIssueListForMiddleBucket = useGetIssueListInMiddleBucket(bucketId as number);
+  const deleteIssueInMiddleBucket = useDeleteIssueInMiddeBucket();
+  const postAddIssue = usePostAddIssue();
+  const postCreateMiddleBucket = usePostCreateMiddleBucket();
+  const deleteMiddleBucket = useDeleteMiddleBucket();
+  const putEditMiddleBucket = usePutEditMiddleBucket();
+  const postSendToJira = usePostSendToJira();
+
+  const myImg = getUser.data ? getUser.data.image : '';
+
   const [received, setReceived] = useState(false);
   useEffect(() => {
     if (props.isInsert) {
       const request: requestType = {
+        middleBucketId: bucketId,
         assignee: issue.assignee,
         description: issue.description,
         epicLink: issue.epicLink,
@@ -98,36 +119,47 @@ const index = (props: any) => {
       };
 
       setIssueId(issueId + 1);
-      issueAxios.postAddIssue(bucketId, request);
+
+      postAddIssue.mutateAsync(request).then(() => getIssueListForMiddleBucket.refetch());
 
       setReceived(true);
       props.setIsInsert(false);
     }
   }, [props.isInsert]);
+
   useEffect(() => {
-    showMiddleBucket();
+    if (bucketId >= 0) {
+      getIssueListForMiddleBucket.refetch();
+    }
   }, [bucketId]);
+
   useEffect(() => {
     if (received) {
-      showMiddleBucket();
       setReceived(false);
     }
   }, [received]);
+
   const deleteHandler = (issueId: number) => {
-    setBucketList(bucketList.filter(issue => issue.issueId !== issueId));
-    issueAxios.deleteIssue(bucketId, issueId);
+    deleteIssueInMiddleBucket
+      .mutateAsync({
+        middleBucketId: bucketId,
+        middleBucketIssueId: issueId,
+      })
+      .then(() => getIssueListForMiddleBucket.refetch());
   };
 
   const deleteMiddleBucketHandler = () => {
-    issueAxios.deleteMiddleBucket(bucketId);
-    window.location.reload();
+    deleteMiddleBucket.mutateAsync(bucketId).then(() => getMiddleBucketList.refetch());
   };
+
   const sendToJiraHandler = () => {
-    issueAxios.postSendToJira(bucketId, pjtId);
+    postSendToJira.mutate({ middleBucketId: bucketId, projectId: pjtId });
   };
+
   const [modalOpen, setModalOpen] = useState(false);
   const [addButtonOpen, setAddButtonOpen] = useState(false);
   const [editButtonOpen, setEditButtonOpen] = useState(false);
+
   const showModalHandler = () => {
     setModalOpen(true);
   };
@@ -142,33 +174,35 @@ const index = (props: any) => {
     content === 'bucket' ? setBucketId(value) : '';
   };
 
-  const BarList = bucketList.map(issue => (
-    <StyledIssue>
-      <Circle
-        height={'20px'}
-        backgroundColor={'red'}
-        margin={'10px'}
-        fontColor={'white'}
-        fontWeight={'bold'}
-        isClickable
-        clickHandler={() => deleteHandler(issue.issueId)}
-      >
-        -
-      </Circle>
-      <IssueBar
-        issueId={issue.issueId}
-        issueType={issue.issueType}
-        summary={issue.summary}
-        description={issue.description}
-        epicLink={issue.epicLink}
-        assignee={issue.assignee}
-        priority={issue.priority}
-        sprint={issue.sprint}
-        storyPoints={issue.storyPoints}
-        userImage={myImg}
-      />
-    </StyledIssue>
-  ));
+  const BarList =
+    getIssueListForMiddleBucket.data &&
+    getIssueListForMiddleBucket.data.issueList.map(issue => (
+      <StyledIssue>
+        <Circle
+          height={'20px'}
+          backgroundColor={'red'}
+          margin={'10px'}
+          fontColor={'white'}
+          fontWeight={'bold'}
+          isClickable
+          clickHandler={() => deleteHandler(issue.issueId)}
+        >
+          -
+        </Circle>
+        <IssueBar
+          issueId={issue.issueId}
+          issueType={issue.issueType}
+          summary={issue.summary}
+          description={issue.description}
+          epicLink={issue.epicLink}
+          assignee={issue.assignee}
+          priority={issue.priority}
+          sprint={issue.sprint}
+          storyPoints={issue.storyPoints}
+          userImage={myImg}
+        />
+      </StyledIssue>
+    ));
   return (
     <MiddleBucket>
       <StyledBucketHeader>
@@ -179,17 +213,19 @@ const index = (props: any) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="미들버킷"
+              sx={{ width: '200px' }}
               onChange={e => {
                 changeHandler(e, 'bucket');
               }}
             >
-              {middleBucketList.map((b, idx) => {
-                return (
-                  <MenuItem key={idx} value={b.middleBucketId}>
-                    {b.name}
-                  </MenuItem>
-                );
-              })}
+              {getMiddleBucketList.data &&
+                getMiddleBucketList.data.map((mb, idx) => {
+                  return (
+                    <MenuItem key={idx} value={mb.middleBucketId}>
+                      {mb.name}
+                    </MenuItem>
+                  );
+                })}
             </Select>
           </FormControl>
           <Button
@@ -258,9 +294,12 @@ const index = (props: any) => {
                     borderColor={theme.issue.story}
                     clickHandler={() => {
                       const name = inputBoxRef.current ? inputBoxRef.current.value : '';
-                      issueAxios.postCreateMiddleBucket(name, pjtId);
+                      // issueAxios.postCreateMiddleBucket(name, pjtId);
+                      postCreateMiddleBucket
+                        .mutateAsync({ name, projectId: pjtId })
+                        .then(() => getMiddleBucketList.refetch());
                       closeModalHandler();
-                      window.location.reload();
+                      // window.location.reload();
                     }}
                     isHover
                   >
@@ -272,11 +311,12 @@ const index = (props: any) => {
                     borderColor={theme.issue.story}
                     clickHandler={() => {
                       const name = inputBoxRef.current ? inputBoxRef.current.value : '';
-                      console.log(name);
-                      console.log(bucketId);
-                      issueAxios.putEditMiddleBucket(name, bucketId);
+                      // issueAxios.putEditMiddleBucket(name, bucketId);
+                      putEditMiddleBucket
+                        .mutateAsync({ name, middleBucketId: bucketId })
+                        .then(() => getMiddleBucketList.refetch());
                       closeModalHandler();
-                      window.location.reload();
+                      // window.location.reload();
                     }}
                     isHover
                   >
@@ -314,12 +354,14 @@ const index = (props: any) => {
         <Button
           borderColor={'#1973ee'}
           isHover
+          width={'40px'}
+          height={'40px'}
           margin={'5px'}
           clickHandler={() => {
             sendToJiraHandler();
           }}
         >
-          Send To Jira
+          <FaJira size={'1.8rem'} />
         </Button>
       </StyledBucketHeader>
       <Sheet

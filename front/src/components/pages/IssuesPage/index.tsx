@@ -25,6 +25,14 @@ export interface templateType {
   storyPoints: number;
   userImage: string;
 }
+
+/**
+ * @description
+ * 미들버킷 페이지
+ * 이슈템플릿과 미들버킷 기능 사용 가능
+ *
+ * @author dbcs
+ */
 const index = () => {
   const dummyIssue: issueType = {
     issueTemplateId: 0,
@@ -45,9 +53,7 @@ const index = () => {
 
   return (
     <StyledIssuesPage>
-      <StyledHeader>
-        <HeaderNav></HeaderNav>
-      </StyledHeader>
+      <HeaderNav></HeaderNav>
       <StyledBody>
         <IssueTemplate issue={issue} setIssue={setIssue} setIsInsert={setIsInsert}></IssueTemplate>
         <MiddleBucket issue={issue} isInsert={isInsert} setIsInsert={setIsInsert}></MiddleBucket>
