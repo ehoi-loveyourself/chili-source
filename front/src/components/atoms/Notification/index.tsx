@@ -13,7 +13,12 @@ interface propsType extends styledType {
  * 시간이 지나면 알아서 사라진다
  *
  * @example
- *
+ * <Notification
+      check={true}
+      message={'예시 메시지'}
+      width={'300px'}
+    ></Notification>
+ * 
  * @param {string} message         - 알림 메시지 내용
  * @param {boolean} check         - 현재 알림의 상태 (false : 에러, true: 확인)
  * @param {number?} milliseconds   - 알림 애니메이션 시간 설정

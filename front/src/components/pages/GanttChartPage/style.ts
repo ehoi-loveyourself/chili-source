@@ -3,18 +3,12 @@ import tw from 'twin.macro';
 
 export const StyledPage = styled.div`
   ${tw`w-full flex flex-col`}
-  height: calc(100vh - 100px);
+  height: calc(100vh - 92px);
+  max-height: calc(100vh - 92px);
 `;
 
-export const StyledHeader = styled.div`
-  height: 1rem;
-  min-height: 1rem;
-`;
+export const StyledHeader = styled.div``;
 
 export const StyledBody = styled.div`
-  ${tw`flex-grow-[1] flex justify-center overflow-hidden`}
-`;
-
-export const StyledLetterBox = styled.div`
-  ${tw`w-1/12`}
+  ${tw`h-full w-full flex flex-col justify-center items-center overflow-auto`}
 `;

@@ -32,7 +32,7 @@ interface propsType extends styledType {
 /**
  * @description
  * 미들 버킷에 추가된 IssueBar를 생성하는 컴포넌트
- * 이슈 유형(story, task, bug)에 따라 IssueBar를 생성할 수 있다.
+ * 이슈 유형(story, task, bug)에 따라 IssueBar의 헤드 색을 구분할 수 있다.
  *
  * @example
  * <IssueBar summary={'이슈 제목'} epicLink={'에픽'} assignee={'담당자'} rank={'우선순위'} type={'story'} storyPoints={4}/>
@@ -54,6 +54,7 @@ interface propsType extends styledType {
  * @param {string?} epicLink        - 에픽 링크
  * @param {string?} sprint          - 스프린트
  * @param {number?} storyPoints     - 스토리 포인트
+ * @param {string?} userImage       - 담당자 프로필사진 경로
  *
  * @author dbcs
  */

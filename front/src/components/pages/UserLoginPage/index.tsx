@@ -6,6 +6,12 @@ interface propsType {
   path?: string;
 }
 
+/**
+ * @description
+ * 로그인 페이지
+ *
+ * @author inte
+ */
 const UserLoginLoadingPage = () => {
   // LifeCycle
   useEffect(() => {
