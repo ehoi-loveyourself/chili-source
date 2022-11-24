@@ -134,10 +134,18 @@ export default {
     // Return
     return new Promise<number>((resolve, reject) => {
       widgetDataAxios
-        .get(`/issue-service/jira/widget?projectId=${projectId}`)
+        .get(`/issue-service/jira/sprint/${projectId}`)
         .then(async response => {
-          console.log('[response data]', response.data);
-          const result: number = ((100 * (response.data.done | 0)) / (response.data.total | 1)) | 0;
+          // const sprintId = response.data.values[response.data.values.length - 1].id;
+          const sprintId = response.data.values[0].id;
+
+          const sprintResp = await widgetDataAxios.get(
+            `/issue-service/jira/widget?projectId=${projectId}&sprintId=${sprintId}`,
+          );
+
+          const result: number =
+            ((100 * (sprintResp.data.done | 0)) / (sprintResp.data.total | 1)) | 0;
+
           resolve(Math.floor(result));
         })
         .catch(error => {
