@@ -23,6 +23,12 @@ export const useGetWidgetCalendarData = () => {
   );
 };
 
+/**
+ * @description
+ * 캘린더 위젯 데이터를 set하는 쿼리 커스텀 훅
+ *
+ * @author inte
+ */
 export const useSetWidgetCalendarData = () => {
   // Init
   const queryClient = useQueryClient();
@@ -30,7 +36,10 @@ export const useSetWidgetCalendarData = () => {
   // Return
   return useMutation(async () => console.log('[캘린더 리렌더링]'), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['widget-calendar']);
+      // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
+      setTimeout(() => {
+        queryClient.invalidateQueries(['widget-calendar']);
+      }, 100);
     },
   });
 };
@@ -97,6 +106,12 @@ export const useGetWidgetGanttData = () => {
   );
 };
 
+/**
+ * @description
+ * Gantt 위젯 데이터를 set하는 쿼리 커스텀 훅
+ *
+ * @author inte
+ */
 export const useSetWidgetGanttData = () => {
   // Init
   const queryClient = useQueryClient();
@@ -104,7 +119,10 @@ export const useSetWidgetGanttData = () => {
   // Return
   return useMutation(async () => console.log('[간트 리렌더링]'), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['widget-gantt']);
+      // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
+      setTimeout(() => {
+        queryClient.invalidateQueries(['widget-gantt']);
+      }, 100);
     },
   });
 };
@@ -129,6 +147,12 @@ export const useGetWidgetJiraData = () => {
   );
 };
 
+/**
+ * @description
+ * JIRA 위젯 데이터를 set하는 쿼리 커스텀 훅 ==========
+ *
+ * @author inte
+ */
 export const useSetWidgetJiraData = () => {
   // Init
   const queryClient = useQueryClient();
@@ -136,7 +160,10 @@ export const useSetWidgetJiraData = () => {
   // Return
   return useMutation(async () => console.log('[지라 리렌더링]'), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['widget-jira']);
+      // 요청이 성공한 경우, DB 연산 시간 0.1s 를 주고 queryKey 유효성 제거
+      setTimeout(() => {
+        queryClient.invalidateQueries(['widget-jira']);
+      }, 100);
     },
   });
 };

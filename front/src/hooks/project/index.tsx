@@ -244,6 +244,8 @@ export const useGetGanttTasks = (op: number, userId?: number, start?: string, en
   const { projectId } = useParams();
 
   return useQuery(['gantt-tasks', projectId], async () => {
+    console.log('간트 차트 리렌더링 감지');
+
     // 컬러 팔레트
     const teamData = await project.getTeamForProject(Number(projectId));
     const colorPalette = new Map<number, string>();
@@ -266,8 +268,8 @@ export const useGetGanttTasks = (op: number, userId?: number, start?: string, en
         styles: {
           backgroundColor: colorPalette.get(Number(item.userId)),
           backgroundSelectedColor: colorPalette.get(Number(item.userId)),
-          progressColor: '#aeb8c2',
-          progressSelectedColor: '#aeb8c2',
+          progressColor: '#111111aa',
+          progressSelectedColor: '#111111aa',
         },
       };
 

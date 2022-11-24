@@ -16,6 +16,22 @@ interface propsType {
   postInviteTeam: UseMutateFunction<void, unknown, { projectId: number; userId: number }, unknown>;
 }
 
+/**
+ * @description
+ * 프로젝트 생성 단계 가운데, 깃 연동을 담당하는 컴포넌트
+ *
+ * @example
+ *
+ * @param {string}    userImage   초대할 사용자 프로필 이미지
+ * @param {string}    userName    초대할 사용자 이름
+ * @param {projectId} project_id  초대할 프로젝트 ID
+ * @param {number}    userId      초대할 사용자 ID
+ * @param {UseMutateFunction<void, unknown, { projectId: number; userId: number }, unknown>} postInviteTeam   팀에 초대하는 react-query 커스텀 훅
+ *
+ *
+ * @author bell
+ */
+
 const index = ({ userImage, userName, projectId, userId, postInviteTeam }: propsType) => {
   return (
     <StyledMarginY>

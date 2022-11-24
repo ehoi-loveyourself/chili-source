@@ -63,12 +63,25 @@ export default {
    * @author dbcs
    */
   getIssueTemplateList: async (projectId: number) => {
+    interface templateType {
+      issueTemplateId: number;
+      projectId: number;
+      issueType: string;
+      summary: string;
+      description: string;
+      assignee: string;
+      priority: string;
+      epicLink: string;
+      sprint: number;
+      storyPoints: number;
+      userImage: string;
+    }
     return new Promise<templateType[]>((resolve, reject) => {
       issueAxios
         .get('/', {
           params: {
-            projectId: projectId,
-            me: true,
+            projectId,
+            me: false,
           },
         })
         .then(response => {
@@ -116,6 +129,14 @@ export default {
       console.log(e);
     }
   },
+
+  /**
+   * @description
+   * 이슈 템플릿 편집 API
+   * 현 프로젝트 내에 자신의 이슈 템플릿을 편집한다.
+   *
+   * @author dbcs
+   */
   putEditIssueTemplate: async (
     projectId: number,
     issueType: string,
@@ -143,6 +164,13 @@ export default {
       console.log(e);
     }
   },
+  /**
+   * @description
+   * 이슈 템플릿 삭제 API
+   * 현 프로젝트 내에 자신의 이슈 템플릿을 삭제한다.
+   *
+   * @author dbcs
+   */
   deleteIssueTemplate: async (issueTemplateId: number) => {
     try {
       const response = await issueAxios.delete(`/${issueTemplateId}`);
@@ -151,9 +179,22 @@ export default {
       console.log(e);
     }
   },
+  /**
+   * @description
+   * 프로젝트의 에픽 리스트를 가져오는 API
+   *
+   * @author dbcs
+   */
   getEpicList: async () => {
+    interface issueType {
+      fields: {
+        summary: string;
+      };
+      key: string;
+    }
+
     interface responseType {
-      issues: any;
+      issues: issueType[];
     }
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
@@ -237,10 +278,25 @@ export default {
         });
     });
   },
-  getSprintList: async (projectId: number) => {
-    interface responseType {
-      values: any;
+  /**
+   * @description
+   * 프로젝트의 스프린트 리스트를 가져오는 API
+   *
+   * @author dbcs
+   */
+  getSprintList: (projectId: number) => {
+    interface sprintType {
+      goal: string;
+      id: 0;
+      name: string;
+      originBoardId: 0;
+      state: string;
     }
+
+    interface responseType {
+      sprints: sprintType[];
+    }
+
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
         .get(`/jira/sprint/${projectId}`)
@@ -252,6 +308,12 @@ export default {
         });
     });
   },
+  /**
+   * @description
+   * 프로젝트의 미들버킷 리스트를 가져오는 API
+   *
+   * @author dbcs
+   */
   getMiddleBucketList: async (projectId: number) => {
     interface responseType {
       middleBucketId: number;
@@ -273,11 +335,14 @@ export default {
         });
     });
   },
-  postCreateMiddleBucket: async (name: string, projectId: number) => {
-    interface responseType {
-      data: any;
-    }
-    return new Promise<responseType[]>((resolve, reject) => {
+  /**
+   * @description
+   * 프로젝트의 미들버킷을 생성하는 API
+   *
+   * @author dbcs
+   */
+  postCreateMiddleBucket: (name: string, projectId: number) => {
+    return new Promise((resolve, reject) => {
       const data = {
         name: name,
         projectId: projectId,
@@ -292,6 +357,12 @@ export default {
         });
     });
   },
+  /**
+   * @description
+   * 프로젝트의 미들버킷의 이름을 수정하는 API
+   *
+   * @author dbcs
+   */
   putEditMiddleBucket: (middleBucketName: string, middleBucketId: number) => {
     interface responseType {
       name: string;
@@ -309,7 +380,13 @@ export default {
         });
     });
   },
-  deleteMiddleBucket: async (middleBucketId: number) => {
+  /**
+   * @description
+   * 프로젝트의 미들버킷을 삭제하는 API
+   *
+   * @author dbcs
+   */
+  deleteMiddleBucket: (middleBucketId: number) => {
     return new Promise((resolve, reject) => {
       issueAxios
         .delete(`/middle-buckets/${middleBucketId}`)
@@ -321,12 +398,13 @@ export default {
         });
     });
   },
-  getIssueList: async (middleBucketId: number) => {
-    interface responseType {
-      issueList: issueType[];
-      middleBucketId: number;
-      middleBucketName: string;
-    }
+  /**
+   * @description
+   * 프로젝트의 특정 미들버킷에 담긴 이슈 리스트를 불러오는 API
+   *
+   * @author dbcs
+   */
+  getIssueListInMiddleBucket: async (middleBucketId: number) => {
     interface issueType {
       assignee: string;
       description: string;
@@ -337,6 +415,11 @@ export default {
       sprint: number;
       storyPoints: number;
       summary: string;
+    }
+    interface responseType {
+      issueList: issueType[];
+      middleBucketId: number;
+      middleBucketName: string;
     }
     return new Promise<responseType>((resolve, reject) => {
       issueAxios
@@ -444,23 +527,48 @@ export default {
         });
     });
   },
-  postAddIssue: async (middleBucketId: number, request: any) => {
-    interface responseType {
-      data: any;
-    }
-    const data = {
-      assignee: request.assignee,
-      description: request.description,
-      epicLink: request.epicLink,
-      issueType: request.issueType,
-      priority: request.priority,
-      sprint: request.sprint,
-      storyPoints: request.storyPoints,
-      summary: request.summary,
-    };
-    return new Promise<responseType>((resolve, reject) => {
+  /**
+   * @description
+   * 미들버킷에 이슈를 추가하는 API
+   *
+   * @author dbcs
+   */
+  postAddIssue: async (
+    middleBucketId: number,
+    assignee: string,
+    description: string,
+    epicLink: string,
+    issueType: string,
+    priority: string,
+    sprint: number,
+    storyPoints: number,
+    summary: string,
+  ) => {
+    // // interface responseType {
+    // //   data: any;
+    // // }
+    // const data = {
+    //   assignee,
+    //   description,
+    //   epicLink,
+    //   issueType,
+    //   priority,
+    //   sprint,
+    //   storyPoints,
+    //   summary,
+    // };
+    return new Promise((resolve, reject) => {
       issueAxios
-        .post(`/middle-buckets/${middleBucketId}`, data)
+        .post(`/middle-buckets/${middleBucketId}`, {
+          assignee,
+          description,
+          epicLink,
+          issueType,
+          priority,
+          sprint,
+          storyPoints,
+          summary,
+        })
         .then(response => {
           resolve(response.data);
         })
@@ -469,7 +577,13 @@ export default {
         });
     });
   },
-  deleteIssue: async (middleBucketId: number, middleBucketIssueId: number) => {
+  /**
+   * @description
+   * 미들버킷의 이슈를 삭제하는 API
+   *
+   * @author dbcs
+   */
+  deleteIssueInMiddleBucket: async (middleBucketId: number, middleBucketIssueId: number) => {
     return new Promise((resolve, reject) => {
       issueAxios
         .delete(`/middle-buckets/${middleBucketId}/${middleBucketIssueId}`)
@@ -481,6 +595,12 @@ export default {
         });
     });
   },
+  /**
+   * @description
+   * 미들버킷의 이슈 데이터를 JIRA로 전송하는 API
+   *
+   * @author dbcs
+   */
   postSendToJira: async (middleBucketId: number, projectId: number) => {
     const data = {
       middleBucketId: middleBucketId,
@@ -499,7 +619,6 @@ export default {
           resolve(response.data);
         })
         .catch(error => {
-          console.log('ㅈ됨');
           reject(error);
         });
     });

@@ -11,6 +11,9 @@ interface propsType extends styledType {
 
 /**
  * @description 위젯을 추가하는 버튼
+ *
+ * @param {string?} path  split해서 부분적으로 쓰기 위한 위젯 컨텐츠의 경로
+ *
  * @author inte
  */
 export const ADD = ({ path }: propsType) => {

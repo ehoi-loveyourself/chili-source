@@ -22,6 +22,12 @@ import FillButton from 'components/atoms/FillButton';
 import Notification from 'components/atoms/Notification';
 import InputBox from 'components/molecules/InputBox';
 
+/**
+ * @description
+ * 설정 페이지의 Main 영역
+ *
+ * @author bell
+ */
 const index = () => {
   // user의 프로필 이미지 용 state
   const [image, setImage] = useState();
