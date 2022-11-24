@@ -11,6 +11,7 @@ interface propsType extends styledType {
 
 /**
  * @description 컬럼 단을 보여주는 라벨 역할 x
+ *
  * @author inte
  */
 export const LABEL = () => {

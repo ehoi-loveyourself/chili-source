@@ -10,6 +10,19 @@ interface propsType {
  * @description
  * 프로젝트 탭을 관리하는 컴포넌트
  *
+ * @example
+ * // projectTabList = JSON.parse(localStorage.getItem('project-tab-list') as string);
+ * <NavProject>
+      {projectTabList.map(({ isActivated, title, id }: tabType, idx: number) => (
+        <Tab
+         ~~
+        ></Tab>
+      ))}
+      <Tab
+        ~~
+      ></Tab>
+    </NavProject>
+ * 
  * @param {ReactNode?} children       - 탭 컴포넌트
  *
  * @author bell

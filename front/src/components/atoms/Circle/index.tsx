@@ -12,9 +12,14 @@ interface propsType extends styledType {
  * @description
  * Circle 생성 컴포넌트
  *
+ * @example
+ *
  * @param {ReactNode?}                             children        - Circle 안에 들어갈 내용
  * @param {number?}                                height          - Circle 지름 [default: 50]
  * @param {string?}                                backgroundColor - Circle 배경 색 [default: theme.button.gray]
+ * @param {string?}                                fontColor       - Circle 내 글자 폰트 색 [default: black]
+ * @param {string?}                                fontWeight      - Circle 내 글자 스타일 [default: normal]
+ * @param {string?}                                margin          - Circle Margin [default: 0px]
  * @param {boolean?}                               isDropShadow    - Drop Shadow 효과 여부 [default: false]
  * @param {boolean?}                               isInnerShadow   - Inner Shadow 효과 여부 [default: false]
  * @param {boolean?}                               isClickable     - Circle 클릭 효과 여부 [default: false]

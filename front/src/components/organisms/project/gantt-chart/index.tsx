@@ -1,4 +1,5 @@
 // Components
+import { Info } from './Info';
 import { Main } from './Main';
 
-export { Main };
+export { Info, Main };
