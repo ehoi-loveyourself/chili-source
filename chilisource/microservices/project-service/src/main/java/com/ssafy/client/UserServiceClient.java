@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "user-service", url = "https://k7b2071.p.ssafy.io/user-service")
+@FeignClient(name = "user-service", url = "https://{주소}/user-service")
 public interface UserServiceClient {
     @GetMapping("/users/list")
     List<UserResponse> getUserList(

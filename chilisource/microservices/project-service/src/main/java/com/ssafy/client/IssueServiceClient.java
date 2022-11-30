@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
-@FeignClient(name = "issue-service", url = "https://k7b2071.p.ssafy.io/issue-service")
+@FeignClient(name = "issue-service", url = "https://{주소}/issue-service")
 public interface IssueServiceClient {
     @DeleteMapping("/all/{projectId}")
     Response deleteAll(@RequestHeader(HttpHeaders.AUTHORIZATION) List<String> auths,

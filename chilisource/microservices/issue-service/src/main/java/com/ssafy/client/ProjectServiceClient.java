@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "project-service", url = "https://k7b2071.p.ssafy.io/project-service")
+@FeignClient(name = "project-service", url = "https://{주소}/project-service")
 public interface ProjectServiceClient {
     // 프로젝트 정보 조회
     @GetMapping("/project/{projectId}")

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
-@FeignClient(name = "auth-service", url = "https://k7b2071.p.ssafy.io/auth-service")
+@FeignClient(name = "auth-service", url = "https://{주소}/auth-service")
 public interface AuthServiceClient {
     @GetMapping("/tokens/{tokenCodeId}")
     TokenResponse getToken(@RequestHeader(HttpHeaders.AUTHORIZATION) List<String> auths,

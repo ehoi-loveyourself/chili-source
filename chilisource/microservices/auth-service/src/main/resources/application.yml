@@ -12,13 +12,13 @@ spring:
     name: auth-service
   zipkin:
     # TODO : 서버에 Open Zipkin Jar 파일 다운로드 후 실행하면 연결됨
-    base-url: http://k7b2071.p.ssafy.io:9411
+    base-url: http://{주소}:9411
     enabled: true
   sleuth:
     sampler:
       probability: 1.0
   rabbitmq:
-    host: k7b2071.p.ssafy.io
+    host: {주소}
     port: 5672
     username: guest
     password: guest
@@ -33,7 +33,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://k7b2071.p.ssafy.io:8761/eureka
+      defaultZone: http://{주소}:8761/eureka
 
 management:
   endpoints:
